@@ -12,8 +12,8 @@ test('renders title', () => {
   expect(title).toBeInTheDocument();
 });
 
-test('displays game', () => {
-  const { getByText } = render(<Game />);
-  const gameComponent = screen.getByText(/Game/i);
-  expect(gameComponent).toBeInTheDocument();
-})
+// test('displays game', () => {
+//   const { getByText } = render(<Game />);
+//   const gameComponent = screen.getByText(/Game/i);
+//   expect(gameComponent).toBeInTheDocument();
+// })

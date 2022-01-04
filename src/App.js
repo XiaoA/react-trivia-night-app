@@ -1,7 +1,7 @@
 import './App.css';
 import Game from './components/Game';
 
-function App() {
+const App = () => {
   return (
     <div className="App">
       <h1>Trivia Night</h1>
