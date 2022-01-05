@@ -1,10 +1,14 @@
 import { render, screen } from '@testing-library/react';
 import Answer from './Answer';
 
-it('displays answer correctly', async () => {
-  const answer = "8 minutes"
-
-  const { getByText } = render(<Answer answer={answer} />);
-  const answerText = screen.getByText(/8 minutes/i);
-  expect(answerText).toBeInTheDocument();
+it('renders answer props correctly', () => {
+ const answers = ["8 Minutes", "6 Minutes", "2 Minutes", "12 Minutes"]
+  const answerText = answers.map((answer) => (
+    <Answer answer={answer} key={answer}/>
+  ))
+  expect(answerText[0].props.answer).toBe("8 Minutes")
+  expect(answerText[1].props.answer).toBe("6 Minutes")
+  expect(answerText[2].props.answer).toBe("2 Minutes")
+  expect(answerText[3].props.answer).toBe("12 Minutes")
 })
+
