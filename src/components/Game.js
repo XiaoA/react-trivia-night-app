@@ -1,6 +1,7 @@
 import React from 'react';
 import Question from './Question';
 import Answer from './Answer';
+import NextButton from './NextButton';
 
 const Game = () => {
   const question = "To the nearest minute, how long does it take for light to travel from the Sun to the Earth?"
@@ -15,6 +16,9 @@ const Game = () => {
               <div className="content">
                 <Question question={question} />
                 {answers.map((answer) => <Answer answerText={answer} key={answer} />)}
+              </div>
+              <div className="card-footer">
+                <NextButton />
               </div>
             </div>
           </div>
