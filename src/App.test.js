@@ -7,13 +7,12 @@ test('renders App component', () => {
 });
 
 test('renders title', () => {
-  const { getByText } = render(<App />);
+  render(<App />);
   const title = screen.getByText(/Trivia Night/i);
   expect(title).toBeInTheDocument();
 });
 
-// test('displays game', () => {
-//   const { getByText } = render(<Game />);
-//   const gameComponent = screen.getByText(/Game/i);
-//   expect(gameComponent).toBeInTheDocument();
-// })
+test('displays game card', () => {
+  render(<Game />);
+  expect(screen.getAllByRole('article').length).toBe(1);
+})
