@@ -7,10 +7,18 @@ const Game = () => {
   const answers = ["8 Minutes", "6 Minutes", "2 Minutes", "12 Minutes"]
 
   return (
-  <div className="content">
-    <Question question={question} />
-      {answers.map((answer) => <Answer answerText={answer} key={answer} />)}
-  </div>
+    <div className="columns is-centered">
+      <div className="column is-half">
+        <div className="card">
+          <div className="card-content">
+            <div className="content">
+              <Question question={question} />
+              {answers.map((answer) => <Answer answerText={answer} key={answer} />)}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   )
 }
 
