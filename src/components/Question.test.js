@@ -1,10 +1,22 @@
 import { render, screen } from '@testing-library/react';
 import Question from './Question';
 
-it('displays question correctly', async () => {
-  const question = "To the nearest minute, how long does it take for light to travel from the Sun to the Earth?"
+const questionProps = {
+  category: "History",
+  type: "multiple",
+  difficulty: "hard",
+  question: "When did the French Revolution begin?",
+  answerOptions: ["1789", "1823", "1756", "1799"],
+  correctAnswer: "1789"
+}
 
-  const { getByText } = render(<Question question={question} />);
-  const questionText = screen.getByText(/to the nearest minute/i);
-  expect(questionText).toBeInTheDocument();
-})
+test('renders question correctly', async () => {
+  render(<Question {...questionProps} />)
+
+  expect(screen.getByText(/french revolution begin/i)).toBeInTheDocument();
+});
+
+
+
+
+

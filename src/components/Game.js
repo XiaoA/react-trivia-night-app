@@ -1,30 +1,26 @@
-import React from 'react';
-import Question from './Question';
-import Answer from './Answer';
-import NextButton from './NextButton';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import '../mocks/data.json';
+import GameCard from './GameCard';
+
+const endPoint = './data.json';
 
 const Game = () => {
-  const question = "To the nearest minute, how long does it take for light to travel from the Sun to the Earth?"
-  const answers = ["8 Minutes", "6 Minutes", "2 Minutes", "12 Minutes"]
+  const [data, setData] = useState({ questions: [] });
+
+  useEffect(() => {
+    loadData();
+  }, [])
+
+  async function loadData() {
+    const quizData = await axios.get(endPoint);
+    setData({ questions: quizData.data.results });
+  }
 
   return (
-    <article>
-      <div className="columns is-centered">
-        <div className="column is-half">
-          <div className="card">
-            <div className="card-content">
-              <div className="content">
-                <Question question={question} />
-                {answers.map((answer) => <Answer answerText={answer} key={answer} />)}
-              </div>
-              <div className="card-footer">
-                <NextButton />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </article>
+    <div>
+      <GameCard data={data} />
+    </div>
   )
 }
 

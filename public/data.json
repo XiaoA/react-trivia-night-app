@@ -1,0 +1,63 @@
+{
+  "response_code": 0,
+  "results": [
+    {
+      "category": "History",
+      "question": "When did the French Revolution begin?",
+      "correct_answer": "1789",
+      "incorrect_answers": [
+        "1823",
+        "1756",
+        "1799"
+      ]
+    },
+    {
+      "category": "Science & Nature",
+      "type": "multiple",
+      "difficulty": "hard",
+      "question": "How many legs is it biologically impossible for a centipede to have?",
+      "correct_answer": "100",
+      "incorrect_answers": [
+        "26",
+        "50",
+        "74"
+      ]
+    },
+    {
+      "category": "Entertainment: Television",
+      "type": "multiple",
+      "difficulty": "easy",
+      "question": "In &quot;Star Trek: Voyager&quot;, which episode did Voyager establish real-time communication with Starfleet Headquarters?",
+      "correct_answer": "Pathfinder",
+      "incorrect_answers": [
+        "Message In A Bottle",
+        "Someone To Watch Over Me",
+        "Counterpoint"
+      ]
+    },
+    {
+      "category": "Entertainment: Cartoon & Animations",
+      "type": "multiple",
+      "difficulty": "hard",
+      "question": "Benny, Brain, Fancy-Fancy, Spook and Choo-Choo were known associates of what Hanna Barbera cartoon character?",
+      "correct_answer": "Top Cat",
+      "incorrect_answers": [
+        "Yogi Bear",
+        "Snagglepuss",
+        "Scooby-Doo"
+      ]
+    },
+    {
+      "category": "Geography",
+      "type": "multiple",
+      "difficulty": "hard",
+      "question": "Which country is the Taedong River in?",
+      "correct_answer": "North Korea",
+      "incorrect_answers": [
+        "South Korea",
+        "Japan",
+        "China"
+      ]
+    }
+  ]
+}
