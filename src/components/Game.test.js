@@ -1,34 +1,27 @@
-import { render } from '@testing-library/react';
+import React from 'react';
+import { render, screen } from '@testing-library/react';
 import Game from './Game';
-import { rest } from 'msw';
-import { setupServer } from 'msw/node';
-import dataMock from '../mocks/data.json';
 
-const endPoint = "http://localhost:3000/data"
-const server = setupServer(
-  rest.get(endPoint, (_request, response, context) => {
-    return response(
-      context.status(200),
-      context.json()
-    )
-  })
-)
+const gameData = {
+  "response_code": 0,
+  "results": [
+    {
+      "category": "History",
+      "question": "When did the French Revolution begin?",
+      "correct_answer": "1789",
+      "incorrect_answers": [
+        "1823",
+        "1756",
+        "1799"
+      ]
+    }
+  ]
+}
 
-beforeAll(() => server.listen());
-afterEach(() => server.resetHandlers());
-afterAll(() => server.close());
-
-test('renders Game component', () => {
-  render(<Game />);
+test('render Game', async () => {
+  render(<Game {...gameData} />);
+  expect(screen.getByRole('article')).toBeVisible()
 });
-
-test('should display green when correct answer is clicked', () => {})
-
-test('should display red when incorrect answer is clicked', () => {})
-
-test('should disable the ability to click after choice has been made', () => {})
-
-test('should display stats offer a new game when game ends', () => {})
 
 
 

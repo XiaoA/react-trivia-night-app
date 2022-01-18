@@ -1,3 +1,4 @@
+import React from 'react';
 import { render, screen } from '@testing-library/react';
 import Question from './Question';
 
@@ -12,9 +13,12 @@ const questionProps = {
 
 test('renders question correctly', async () => {
   render(<Question {...questionProps} />)
-
   expect(screen.getByText(/french revolution begin/i)).toBeInTheDocument();
 });
+
+
+
+
 
 
 

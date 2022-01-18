@@ -1,12 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Question from './Question';
 import Answer from './Answer';
-import Button from './Button';
-
 import { shuffleArray, decodeTriviaData } from "../helpers";
 
-const GameCard = ({ data }) => {
 
+const GameCard = ({ data }) => {
   const [index, setIndex] = useState(0);
 
   const questionText =
@@ -21,7 +19,6 @@ const GameCard = ({ data }) => {
       : [];
 
   function nextQuestion() {
-    // idx++
     setIndex(index + 1);
   }
 
@@ -29,28 +26,32 @@ const GameCard = ({ data }) => {
     const selection = event.target.innerHTML;
 
     if (selection === data.questions[index].correct_answer) {
-       console.log("correct");
+      console.log("correct");
     } else {
       console.log("incorrect");
     }
+    nextQuestion();
   }
 
   return (
+
     <article>
       <div className="columns is-centered">
         <div className="column is-half">
           <div className="card">
             <div className="card-content">
               <div className="content">
+
                 <Question question={decodeTriviaData(questionText)} />
                 <Answer answers={answerText} onAnswer={onAnswer} />
-                <Button nextQuestion={nextQuestion} />
+
               </div>
             </div>
           </div>
         </div>
       </div>
     </article>
+
   )
 }
 

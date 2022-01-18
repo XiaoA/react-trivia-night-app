@@ -1,18 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import '../mocks/data.json';
 import GameCard from './GameCard';
 
-const endPoint = './data.json';
+const endPoint = 'https://opentdb.com/api.php';
 
 const Game = () => {
   const [data, setData] = useState({ questions: [] });
 
   useEffect(() => {
-    loadData();
+    loadQuestions();
   }, [])
 
-  async function loadData() {
+  async function loadQuestions() {
     const quizData = await axios.get(endPoint);
     setData({ questions: quizData.data.results });
   }
