@@ -5,20 +5,20 @@ import GameCard from './GameCard';
 const endPoint = 'https://opentdb.com/api.php';
 
 const Game = () => {
-  const [data, setData] = useState({ questions: [] });
+  const [triviaData, setTriviaData] = useState({ questions: [] });
 
   useEffect(() => {
     loadQuestions();
   }, [])
 
   async function loadQuestions() {
-    const quizData = await axios.get(endPoint);
-    setData({ questions: quizData.data.results });
+    const gameQuestions = await axios.get(endPoint);
+    setTriviaData({ questions: gameQuestions.data.results });
   }
 
   return (
     <div>
-      <GameCard data={data} />
+      <GameCard data={triviaData} />
     </div>
   )
 }
