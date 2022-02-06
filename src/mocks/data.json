@@ -2,62 +2,61 @@
   "response_code": 0,
   "results": [
     {
-      "category": "History",
-      "question": "When did the French Revolution begin?",
-      "correct_answer": "1789",
+      "category": "Mythology",
+      "type": "boolean",
+      "difficulty": "easy",
+      "question": "In%20Norse%20mythology%2C%20Thor%20once%20dressed%20as%20a%20woman.",
+      "correct_answer": "True",
       "incorrect_answers": [
-        "1823",
-        "1756",
-        "1799"
+        "False"
       ]
     },
     {
-      "category": "Science & Nature",
-      "type": "multiple",
-      "difficulty": "hard",
-      "question": "How many legs is it biologically impossible for a centipede to have?",
-      "correct_answer": "100",
-      "incorrect_answers": [
-        "26",
-        "50",
-        "74"
-      ]
-    },
-    {
-      "category": "Entertainment: Television",
+      "category": "Mythology",
       "type": "multiple",
       "difficulty": "easy",
-      "question": "In &quot;Star Trek: Voyager&quot;, which episode did Voyager establish real-time communication with Starfleet Headquarters?",
-      "correct_answer": "Pathfinder",
+      "question": "Who%20in%20Greek%20mythology%2C%20who%20led%20the%20Argonauts%20in%20search%20of%20the%20Golden%20Fleece%3F",
+      "correct_answer": "Jason",
       "incorrect_answers": [
-        "Message In A Bottle",
-        "Someone To Watch Over Me",
-        "Counterpoint"
+        "Castor",
+        "Daedalus",
+        "Odysseus"
       ]
     },
     {
-      "category": "Entertainment: Cartoon & Animations",
-      "type": "multiple",
-      "difficulty": "hard",
-      "question": "Benny, Brain, Fancy-Fancy, Spook and Choo-Choo were known associates of what Hanna Barbera cartoon character?",
-      "correct_answer": "Top Cat",
+      "category": "Mythology",
+      "type": "boolean",
+      "difficulty": "medium",
+      "question": "The%20Japanese%20god%20Izanagi%20successfully%20returned%20his%20wife%20Izanami%20from%20the%20Underworld.",
+      "correct_answer": "False",
       "incorrect_answers": [
-        "Yogi Bear",
-        "Snagglepuss",
-        "Scooby-Doo"
+        "True"
       ]
     },
     {
-      "category": "Geography",
+      "category": "Mythology",
+      "type": "multiple",
+      "difficulty": "medium",
+      "question": "In%20Greek%20Mythology%2C%20who%20killed%20Achilles%3F",
+      "correct_answer": "Paris",
+      "incorrect_answers": [
+        "Hector",
+        "Helen",
+        "Pericles"
+      ]
+    },
+    {
+      "category": "Mythology",
       "type": "multiple",
       "difficulty": "hard",
-      "question": "Which country is the Taedong River in?",
-      "correct_answer": "North Korea",
+      "question": "Nidhogg%20is%20a%20mythical%20creature%20from%20what%20mythology%3F",
+      "correct_answer": "Norse",
       "incorrect_answers": [
-        "South Korea",
-        "Japan",
-        "China"
+        "Egyptian",
+        "Greek",
+        "Hindu"
       ]
     }
   ]
 }
+

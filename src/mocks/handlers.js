@@ -2,6 +2,7 @@ import { rest } from 'msw';
 import mockData from './data.json';
 
 const mockEndPoint = "https://opentdb.com/api.php"
+//const mockEndPoint = "https://opentdb.com/api.php?amount=10&encode=url3986"
 
 export const handlers = [
   rest.get(mockEndPoint, (request, response, context) => {

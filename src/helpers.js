@@ -1,27 +1,35 @@
- const getRandomIndex = (min, max) => {
-   min = Math.ceil(min);
-   max = Math.floor(max);
+export const mergeAnswerLists = (question) => {
+  const unmergedAnswerLists = [
+    question.correctAnswer,
+    ...question.incorrectAnswers
+  ];
 
-  return Math.floor(Math.random() * (max - min + 1) + min);
- }
+  // Replaced Fisher-Yates with Schwartzian Transform
+  // https://en.wikipedia.org/wiki/Schwartzian_transform
 
+  return unmergedAnswerLists
+    .map((answer) => ({
+      sort: Math.random(),
+      value: answer
+    }))
+    .sort((a, b) => a.sort - b.sort)
+    .map((a) => a.value);
+};
 
-export const shuffleArray = (a) => {
-  var array = a;
+export const decodeApiText = (apiQuestions) => {
+  return apiQuestions.map((apiQuestion) => {
+    const incorrectAnswers = apiQuestion.incorrect_answers.map(
+      (incorrectAnswer) => decodeURIComponent(incorrectAnswer)
+    );
 
-  for(let i = array.length - 1; i > 0; i--) {
-    const j = getRandomIndex(0, i);
-
-    // swap
-    const t = array[j];
-    array[j] = array[i];
-    array[i] = t;
-  }
-
-  return array;
+    return {
+      correctAnswer: decodeURIComponent(apiQuestion.correct_answer),
+      question: decodeURIComponent(apiQuestion.question),
+      incorrectAnswers
+    }
+  })
 }
 
-export const decodeTriviaData = (input) => {
-  let doc = new DOMParser().parseFromString(input, 'text/html');
-  return doc.documentElement.textContent;
+export const displayAnswers = () => {
+  
 }
