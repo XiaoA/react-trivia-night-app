@@ -7,9 +7,7 @@
       "difficulty": "easy",
       "question": "In%20Norse%20mythology%2C%20Thor%20once%20dressed%20as%20a%20woman.",
       "correct_answer": "True",
-      "incorrect_answers": [
-        "False"
-      ]
+      "incorrect_answers": ["False"]
     },
     {
       "category": "Mythology",
@@ -17,11 +15,7 @@
       "difficulty": "easy",
       "question": "Who%20in%20Greek%20mythology%2C%20who%20led%20the%20Argonauts%20in%20search%20of%20the%20Golden%20Fleece%3F",
       "correct_answer": "Jason",
-      "incorrect_answers": [
-        "Castor",
-        "Daedalus",
-        "Odysseus"
-      ]
+      "incorrect_answers": ["Castor", "Daedalus", "Odysseus"]
     },
     {
       "category": "Mythology",
@@ -29,9 +23,7 @@
       "difficulty": "medium",
       "question": "The%20Japanese%20god%20Izanagi%20successfully%20returned%20his%20wife%20Izanami%20from%20the%20Underworld.",
       "correct_answer": "False",
-      "incorrect_answers": [
-        "True"
-      ]
+      "incorrect_answers": ["True"]
     },
     {
       "category": "Mythology",
@@ -39,11 +31,7 @@
       "difficulty": "medium",
       "question": "In%20Greek%20Mythology%2C%20who%20killed%20Achilles%3F",
       "correct_answer": "Paris",
-      "incorrect_answers": [
-        "Hector",
-        "Helen",
-        "Pericles"
-      ]
+      "incorrect_answers": ["Hector", "Helen", "Pericles"]
     },
     {
       "category": "Mythology",
@@ -51,12 +39,7 @@
       "difficulty": "hard",
       "question": "Nidhogg%20is%20a%20mythical%20creature%20from%20what%20mythology%3F",
       "correct_answer": "Norse",
-      "incorrect_answers": [
-        "Egyptian",
-        "Greek",
-        "Hindu"
-      ]
+      "incorrect_answers": ["Egyptian", "Greek", "Hindu"]
     }
   ]
 }
-

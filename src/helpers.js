@@ -1,7 +1,7 @@
 export const mergeAnswerLists = (question) => {
   const unmergedAnswerLists = [
     question.correctAnswer,
-    ...question.incorrectAnswers
+    ...question.incorrectAnswers,
   ];
 
   // Replaced Fisher-Yates with Schwartzian Transform
@@ -10,7 +10,7 @@ export const mergeAnswerLists = (question) => {
   return unmergedAnswerLists
     .map((answer) => ({
       sort: Math.random(),
-      value: answer
+      value: answer,
     }))
     .sort((a, b) => a.sort - b.sort)
     .map((a) => a.value);
@@ -25,11 +25,9 @@ export const decodeApiText = (apiQuestions) => {
     return {
       correctAnswer: decodeURIComponent(apiQuestion.correct_answer),
       question: decodeURIComponent(apiQuestion.question),
-      incorrectAnswers
-    }
-  })
-}
+      incorrectAnswers,
+    };
+  });
+};
 
-export const displayAnswers = () => {
-  
-}
+export const displayAnswers = () => {};
