@@ -13,16 +13,8 @@ const Register = ({ handleLogin, handleLogout, loggedInStatus, history }) => {
     history.push("/dashboard");
   }
 
-  // const handleLogoutClick = () => {
-  //   axios.delete('http://localhost:3001/logout', { withCredentials: true }).then(response => {
-  //     handleLogout();
-  //   }).catch(error => {
-  //     console.error("logout error", error);
-  //   })
-  // }
-
   const handleSubmit = (event) => {
-    axios.post("http://localhost:3001/registrations", {
+    axios.post(`${process.env.REACT_APP_AUTHENTICATION_BASEURL}/registrations`, {
       user: {
         email,
         password,

@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 const Home = ({ handleLogout, loggedInStatus }) => {
 
   const handleLogoutClick = () => {
-    axios.delete('http://localhost:3001/logout', { withCredentials: true }).then(response => {
+    axios.delete(`${process.env.REACT_APP_AUTHENTICATION_BASEURL}/logout`, { withCredentials: true }).then(response => {
       handleLogout();
     }).catch(error => {
       console.error("logout error", error);

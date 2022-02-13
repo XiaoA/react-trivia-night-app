@@ -12,7 +12,7 @@ const Login = ({ handleLogin, history }) => {
   }
 
   const handleSubmit = (event) => {
-    axios.post("http://localhost:3001/sessions", {
+    axios.post(`${process.env.REACT_APP_AUTHENTICATION_BASEURL}/sessions`, {
       user: {
         email,
         password
