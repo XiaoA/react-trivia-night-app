@@ -1,15 +1,37 @@
-import React from 'react';
+import React, { useContext } from "react";
+import { GameContext } from "../contexts/GameContext";
 
-const Answer = (props) => {
-  const answer = props.answers.map((answer, currentQuestion) =>
 
-    <button className="button is-large is-fullwidth is-link mb-5" key={currentQuestion} onClick={props.onAnswer}>{answer}</button>);
+const Answer = ({
+  answerText,
+  index,
+  onSelectAnswer,
+  currentAnswer,
+  correctAnswer,
+}) => {
+  const [gameState, dispatch] = useContext(GameContext);
+  const choiceMap = ["A", "B", "C", "D"];
+  const isCorrectAnswer = currentAnswer && answerText === correctAnswer;
+  const isWrongAnswer =
+    currentAnswer === answerText && currentAnswer !== correctAnswer;
+
+  const correctAnswerClass = isCorrectAnswer ? "correct-answer" : "";
+  const wrongAnswerClass = isWrongAnswer ? "wrong-answer" : "";
+  const disabledClass = currentAnswer ? "disabled-answer" : "";
 
   return (
-    <div>
-      {answer}
+    <div className={`answer answer-button ${correctAnswerClass} ${wrongAnswerClass} ${disabledClass}`}
+      onClick={() => onSelectAnswer(answerText)}>
+      <div className="answer-option">{choiceMap[index]}</div>
+      <div
+        className="answer-text"
+        onClick={() => dispatch({ type: "SELECT_ANSWER" })}
+        title="nextButton"
+      >
+        {answerText}
+      </div>
     </div>
-  )
-}
+  );
+};
 
 export default Answer;

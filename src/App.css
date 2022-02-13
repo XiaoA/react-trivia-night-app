@@ -1,41 +1,56 @@
+/* Site Wide */
 html {
-    background: lightgray;    
+  background: #e0e0e0;
 }
-/* .App { */
-/*   text-align: center; */
-/* } */
 
-/* .App-logo { */
-/*   height: 40vmin; */
-/*   pointer-events: none; */
-/* } */
+/* Trivia Answers */
+.answers {
+  justify-content: space-between;
+  margin-top: 50px;
+}
 
-/* @media (prefers-reduced-motion: no-preference) { */
-/*   .App-logo { */
-/*     animation: App-logo-spin infinite 20s linear; */
-/*   } */
-/* } */
+.answer-button {
+  background: #0057ac;
+  color: #fff;
+  min-height: 70px;
+  cursor: pointer;
+  margin-bottom: 30px;
+  display: flex;
+}
 
-/* .App-header { */
-/*   background-color: #282c34; */
-/*   min-height: 100vh; */
-/*   display: flex; */
-/*   flex-direction: column; */
-/*   align-items: center; */
-/*   justify-content: center; */
-/*   font-size: calc(10px + 2vmin); */
-/*   color: white; */
-/* } */
+.answer-option {
+  font-size: 30px;
+  font-weight: bold;
+  width: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-/* .App-link { */
-/*   color: #61dafb; */
-/* } */
+.answer-text {
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  margin-left: 20px;
+}
 
-/* @keyframes App-logo-spin { */
-/*   from { */
-/*     transform: rotate(0deg); */
-/*   } */
-/*   to { */
-/*     transform: rotate(360deg); */
-/*   } */
-/* } */
+/* Game Logic (Right/Wrong Answers) */
+.correct-answer {
+  border: 5px solid #1ea55b;
+}
+
+.correct-answer .answer-option {
+  background: #1ea55b;
+}
+
+.wrong-answer {
+  border: 5px solid #dc0a0a;
+}
+
+.wrong-answer .answer-option {
+  background: #dc0a0a;
+}
+
+.disabled-answer {
+  pointer-events: none;
+}

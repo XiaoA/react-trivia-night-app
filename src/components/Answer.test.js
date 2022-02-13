@@ -1,7 +1,15 @@
-import React from 'react';
-import { render, screen } from '@testing-library/react';
-import Question from './Question';
-import Answer from './Answer';
+import React from "react";
+import Question from "./Question";
+import Answer from "./Answer";
+import { render, screen } from '../test-utils'
+
+test("render Answer", async () => {
+  return render(
+    <Answer />
+  );
+});
+
+
 
 const answerProps = {
   answers: ["1789", "1823", "1756", "1799"],
@@ -37,9 +45,3 @@ test('should track correct answer', async () => {
   expect(thirdAnswer_1756).not.toEqual(correctAnswer);
   expect(fourthAnswer_1799).not.toEqual(correctAnswer);
 });
-
-
-
-
-
-

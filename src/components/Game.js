@@ -1,26 +1,27 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import GameCard from './GameCard';
+import React, { useContext, useEffect } from "react";
+import { GameContext} from "../contexts/GameContext";
+import GameCard from "./GameCard";
 
-const endPoint = 'https://opentdb.com/api.php';
-
-const Game = () => {
-  const [triviaData, setTriviaData] = useState({ questions: [] });
+function Game() {
+  const [gameState, dispatch] = useContext(GameContext);
+  const triviaApiEndpoint =
+    "https://opentdb.com/api.php?amount=5&encode=url3986";
 
   useEffect(() => {
-    loadQuestions();
-  }, [])
-
-  async function loadQuestions() {
-    const gameQuestions = await axios.get(endPoint);
-    setTriviaData({ questions: gameQuestions.data.results });
-  }
+    if (gameState.questions.length > 0) {
+      return;
+    }
+    fetch(triviaApiEndpoint)
+      .then((response) => response.json())
+      .then((data) => {
+        dispatch({ type: "OPEN_TRIVIA_API_QUESTIONS", payload: data.results });
+      });
+  });
 
   return (
     <div>
-      <GameCard data={triviaData} />
+      <GameCard />
     </div>
-  )
+  );
 }
-
 export default Game;
