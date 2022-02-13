@@ -19,14 +19,9 @@ const Answer = ({
   const wrongAnswerClass = isWrongAnswer ? "wrong-answer" : "";
   const disabledClass = currentAnswer ? "disabled-answer" : "";
 
-  console.log('currentAnswer', currentAnswer)
-  console.log('correct answer', correctAnswer)
-
   return (
-    <div
-      className={`answer answer-button ${correctAnswerClass} ${wrongAnswerClass} ${disabledClass}`}
-      onClick={() => onSelectAnswer(answerText)}
-    >
+    <div className={`answer answer-button ${correctAnswerClass} ${wrongAnswerClass} ${disabledClass}`}
+      onClick={() => onSelectAnswer(answerText)}>
       <div className="answer-option">{choiceMap[index]}</div>
       <div
         className="answer-text"
