@@ -1,11 +1,11 @@
-import React, { useContext, useEffect } from 'react';
-import { GameContext } from '../contexts/GameContext';
-import GameCard from './GameCard';
+import React, { useContext, useEffect } from "react";
+import { GameContext} from "../contexts/GameContext";
+import GameCard from "./GameCard";
 
 function Game() {
   const [gameState, dispatch] = useContext(GameContext);
-  const triviaApiEndpoint = "https://opentdb.com/api.php?amount=5&encode=url3986";
-
+  const triviaApiEndpoint =
+    "https://opentdb.com/api.php?amount=5&encode=url3986";
 
   useEffect(() => {
     if (gameState.questions.length > 0) {
@@ -13,7 +13,7 @@ function Game() {
     }
     fetch(triviaApiEndpoint)
       .then((response) => response.json())
-      .then(data => {
+      .then((data) => {
         dispatch({ type: "OPEN_TRIVIA_API_QUESTIONS", payload: data.results });
       });
   });
@@ -22,6 +22,6 @@ function Game() {
     <div>
       <GameCard />
     </div>
-  )
+  );
 }
 export default Game;

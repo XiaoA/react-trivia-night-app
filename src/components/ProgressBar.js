@@ -1,5 +1,5 @@
-import React, { useContext } from 'react';
-import { GameContext } from '../contexts/GameContext';
+import React, { useContext } from "react";
+import { GameContext } from "../contexts/GameContext";
 
 const ProgressBar = () => {
   const [gameState, dispatch] = useContext(GameContext);
@@ -18,7 +18,7 @@ const ProgressBar = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default ProgressBar;

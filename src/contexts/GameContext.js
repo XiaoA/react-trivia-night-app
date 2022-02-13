@@ -1,23 +1,23 @@
-import React, { createContext, useReducer } from 'react';
-import { mergeAnswerLists, decodeApiText } from '../helpers';
+import React, { createContext, useReducer } from "react";
+import { mergeAnswerLists, decodeApiText } from "../helpers";
 
 const initialState = {
   currentQuestionIndex: 0,
   questions: [],
   gameOver: false,
   answers: [],
-  currentAnswer: '',
-  correctAnswersCount: 0
+  currentAnswer: "",
+  correctAnswersCount: 0,
 };
 
 const reducer = (state, action) => {
-
   switch (action.type) {
     case "SELECT_ANSWER": {
       const correctAnswersCount =
         action.payload ===
-          state.questions[state.currentQuestionIndex].correctAnswer ? state.correctAnswersCount + 1 :
-          state.correctAnswersCount;
+          state.questions[state.currentQuestionIndex].correctAnswer
+          ? state.correctAnswersCount + 1
+          : state.correctAnswersCount;
 
       return {
         ...state,
@@ -31,13 +31,15 @@ const reducer = (state, action) => {
       const currentQuestionIndex = showResults
         ? state.currentQuestionIndex
         : state.currentQuestionIndex + 1;
-      const answers = showResults ? [] : mergeAnswerLists(state.questions[currentQuestionIndex]);
+      const answers = showResults
+        ? []
+        : mergeAnswerLists(state.questions[currentQuestionIndex]);
       return {
         ...state,
         currentQuestionIndex,
         showResults,
         answers,
-        currentAnswer: ''
+        currentAnswer: "",
       };
     }
     case "PLAY_AGAIN": {
@@ -48,7 +50,7 @@ const reducer = (state, action) => {
       return {
         ...state,
         questions: decodedQuestions,
-        answers: mergeAnswerLists(decodedQuestions[0])
+        answers: mergeAnswerLists(decodedQuestions[0]),
       };
     }
     default: {
@@ -62,9 +64,5 @@ export const GameContext = createContext();
 export const GameProvider = ({ children }) => {
   const value = useReducer(reducer, initialState);
 
-  return (
-    <GameContext.Provider value={value}>
-      {children}
-    </GameContext.Provider>
-  )
+  return <GameContext.Provider value={value}>{children}</GameContext.Provider>;
 };

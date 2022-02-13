@@ -1,6 +1,6 @@
 /* Site Wide */
 html {
-  background: #e0e0e0;   
+  background: #e0e0e0;
 }
 
 /* Trivia Answers */
@@ -10,7 +10,7 @@ html {
 }
 
 .answer-button {
-  background: #0057AC;
+  background: #0057ac;
   color: #fff;
   min-height: 70px;
   cursor: pointer;
@@ -20,7 +20,7 @@ html {
 
 .answer-option {
   font-size: 30px;
-  font-weight: bold;  
+  font-weight: bold;
   width: 70px;
   display: flex;
   align-items: center;
