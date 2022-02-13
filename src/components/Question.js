@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 import { GameContext } from "../contexts/GameContext";
-//import { useGame } from "../contexts/GameContext"; dodd
 import Answer from "./Answer";
 
 
@@ -12,7 +11,7 @@ const Question = () => {
   return (
     <article>
       <div className="content question">
-        <h2>{currentQuestion}</h2>
+        <h2>{currentQuestion.question}</h2>
       </div>
 
       <div className="answers is-centered">

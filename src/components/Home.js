@@ -2,11 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
-const Home = ({ handleLogin, handleLogout, loggedInStatus, history }) => {
-  // const handleSuccessfulAuth = (data) => {
-  //   handleLogin(data);
-  //   history.push("/dashboard");
-  // }
+const Home = ({ handleLogout, loggedInStatus }) => {
 
   const handleLogoutClick = () => {
     axios.delete('http://localhost:3001/logout', { withCredentials: true }).then(response => {
