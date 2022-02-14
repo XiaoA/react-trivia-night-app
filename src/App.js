@@ -5,8 +5,9 @@ import Game from "./components/Game";
 import Register from "./components/Register";
 import Login from "./components/Login";
 import Home from "./components/Home";
-// import NavBar from './components/NavBar';
+import NavBar from './components/NavBar';
 import Dashboard from "./components/Dashboard";
+import SetupUserProfile from './components/SetupUserProfile';
 //import PrivateRoute from "./components/PrivateRoute";
 //import ForgotPassword from "./components/ForgotPassword";
 //import UpdateProfile from "./components/UpdateProfile";
@@ -50,9 +51,8 @@ const App = () => {
   return (
     <div className="App">
       <BrowserRouter>
-
+        <NavBar loggedInStatus={loggedInStatus} />
         <Switch>
-      
           <Route
             exact
             path={"/"}
@@ -81,6 +81,17 @@ const App = () => {
               />
             )}
           />
+
+          <Route
+            path={"/setup-user-profile"}
+            render={props => (
+              <SetupUserProfile {...props} handleLogin={handleLogin}
+                handleLogout={handleLogout}
+                loggedInStatus={loggedInStatus}
+              />
+            )}
+          />
+
           <Route
             path={"/login"}
             render={props => (

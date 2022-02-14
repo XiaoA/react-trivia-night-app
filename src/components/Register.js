@@ -10,7 +10,7 @@ const Register = ({ handleLogin, handleLogout, loggedInStatus, history }) => {
 
    const handleSuccessfulAuth = (data) => {
     handleLogin(data);
-    history.push("/dashboard");
+    history.push("/setup-user-profile");
   }
 
   const handleSubmit = (event) => {
