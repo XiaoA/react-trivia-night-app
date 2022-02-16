@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
+import axios from 'axios';
 
 const SetupUserProfile = ({ handleLogin, handleLogout, loggedInStatus, history }) => {
   const [username, setUsername] = useState('');
@@ -11,25 +12,24 @@ const SetupUserProfile = ({ handleLogin, handleLogout, loggedInStatus, history }
   }
 
   const handleSubmit = (event) => {
-    event.preventDefault();
-    console.log('username:', event.target[0].value)
-    console.log('team name:', event.target[1].value)
-    // axios.post(`${process.env.REACT_APP_AUTHENTICATION_BASEURL}/registrations`, {
-    //   user: {
-    //     email,
-    //     password,
-    //     password_confirmation
-    //   }
-    // },
-    //   { withCredentials: true }
-    // ).then(response => {
-    //   if (response.data.status === 'created') {
-    //     handleSuccessfulProfileSetup(response.data)
-    //   }
+    
+    setUsername(event.target[0].value);
+    setTeamName(event.target[1].value);
+    console.log('username:', username);
+    console.log('team name:', teamName);
+    
+    // axios.get('http://localhost://3000', {
+    //   username,
+    //   teamName
+    //   }).then(response => {
+      // if (response.data.status === 'created') {
+      //   handleSuccessfulProfileSetup(response.data)
+        // }
+    //     console.log(response)
     // }).catch(error => {
     //   console.log('registration error', error);
     // })
-    // event.preventDefault();
+    event.preventDefault();
   }
 
   return (

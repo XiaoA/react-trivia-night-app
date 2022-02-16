@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-
+import ChooseGameOptions from './ChooseGameOptions';
 const Home = ({ handleLogout, loggedInStatus }) => {
 
   const handleLogoutClick = () => {
@@ -13,28 +13,20 @@ const Home = ({ handleLogout, loggedInStatus }) => {
   }
 
   return (
-    <div className="homepage">
-      <div className="container">
-        <div className="card">
-          <div className="card-body">
-            <button className="button is-light" onClick={() => handleLogoutClick()}>Log Out</button>
-            <button className="button is-light"><Link to="/register">Register</Link></button>
-            <button className="button is-light"><Link to="/login">Log In</Link></button>
-            <button className="button is-light"><Link to="/dashboard">Dashboard</Link></button>
-            <button className="button is-light"><Link to="/game">Game</Link></button>
-            <h2>Status: {loggedInStatus}</h2>
+    <section className="hero is-info is-fullheight">
+      <div className="hero-body">
+        <div className="container has-text-centered">
+          <div className="column is-6 is-offset-3">
+            <h1 className="title">
+              Trivia Night
+            </h1>
+            <h2 className="subtitle">
+              Test your knowledge alone or with friends!
+            </h2>
           </div>
         </div>
       </div>
-
-      <section className="hero is-link">
-        <div className="hero-body">
-
-          <p className="title">Trivia Night</p>
-          <p className="subtitle">Test your knowledge alone or with friends!</p>
-        </div>
-      </section>
-    </div>
+    </section>
   );
 };
 

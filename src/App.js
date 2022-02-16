@@ -8,9 +8,13 @@ import Home from "./components/Home";
 import NavBar from './components/NavBar';
 import Dashboard from "./components/Dashboard";
 import SetupUserProfile from './components/SetupUserProfile';
+import ChooseGameOptions from './components/ChooseGameOptions';
+
 //import PrivateRoute from "./components/PrivateRoute";
 //import ForgotPassword from "./components/ForgotPassword";
 //import UpdateProfile from "./components/UpdateProfile";
+
+
 import axios from 'axios';
 
 const App = () => {
@@ -103,6 +107,7 @@ const App = () => {
           />
 
           <Route path="/game" component={Game} />
+          <Route path="/choose-game-options" component={ChooseGameOptions} />
 
 
         </Switch>

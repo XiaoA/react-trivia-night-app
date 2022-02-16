@@ -1,15 +1,20 @@
 import React from "react";
-import { Link } from "react-router-dom";
 
-const Dashboard = (props) => {
+const Dashboard = ({ loggedInStatus }) => {
 
   return (
-    <div>
-      {props.loggedInStatus}
-    </div>
-   
+<>
+      <div className="card">
+        <div className="card-body">
+          Your Username
+          Your Team Name
+           Your Team Ranking
+        </div> 
+      </div>
+
+      </>
   );
-};
+}
 
 export default Dashboard;
 
