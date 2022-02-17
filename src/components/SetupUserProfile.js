@@ -1,36 +1,62 @@
-import React, { useState } from "react";
-import { Link, useHistory } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useLocation, useHistory } from "react-router-dom";
 import axios from 'axios';
 
-const SetupUserProfile = ({ handleLogin, handleLogout, loggedInStatus, history }) => {
+
+const SetupUserProfile = ({ handleLogin, handleLogout, loggedInStatus }) => {
   const [username, setUsername] = useState('');
   const [teamName, setTeamName] = useState('');
+  const [userId, setUserId] = useState('');
+  const [email, setEmail] = useState('');
 
+  let location = useLocation();
+  let history = useHistory();
+
+   useEffect(() => {
+     setUserId(location.userId);
+     setEmail(location.email);
+    }, [location]);
+
+  
   const handleSuccessfulProfileSetup = (data) => {
     handleLogin(data);
     history.push("/dashboard");
   }
 
+  // refactor to ensure both are saved
   const handleSubmit = (event) => {
-    
+    console.log('setup profile handle submit event', event)
     setUsername(event.target[0].value);
     setTeamName(event.target[1].value);
-    console.log('username:', username);
-    console.log('team name:', teamName);
-    
-    // axios.get('http://localhost://3000', {
-    //   username,
-    //   teamName
-    //   }).then(response => {
-      // if (response.data.status === 'created') {
-      //   handleSuccessfulProfileSetup(response.data)
-        // }
-    //     console.log(response)
-    // }).catch(error => {
-    //   console.log('registration error', error);
-    // })
+
+    axios.post('http://localhost:5000/players/add', {
+      username,
+      userId,
+      email
+    }).then(response => {
+      if (response.data.status === 'created') {
+        //handleSuccessfulProfileSetup(response.data)
+        console.log('player', response)
+      }
+    }).catch(error => {
+      console.log('registration error', error);
+    })
     event.preventDefault();
+
+    axios.post('http://localhost:5000/teams/add', {
+      teamName
+    }).then(response => {
+      if (response.data.status === 'created') {
+        handleSuccessfulProfileSetup(response.data)
+      }
+      console.log('team', response)
+    }).catch(error => {
+      console.log('registration error', error);
+    })
+    event.preventDefault();
+    history.push("/dashboard");
   }
+
 
   return (
     <>

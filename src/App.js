@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import "./App.css";
 import Game from "./components/Game";
 import Register from "./components/Register";
@@ -20,7 +20,7 @@ import axios from 'axios';
 const App = () => {
   const [loggedInStatus, setLoggedInStatus] = useState("NOT_LOGGED_IN");
   const [user, setUser] = useState({});
-
+ 
   const checkLoginStatus = () => {
     axios.get(`${process.env.REACT_APP_AUTHENTICATION_BASEURL}/logged_in`, { withCredentials: true })
       .then(response => {
@@ -55,7 +55,7 @@ const App = () => {
   return (
     <div className="App">
       <BrowserRouter>
-        <NavBar loggedInStatus={loggedInStatus} />
+      <NavBar loggedInStatus={loggedInStatus}/>
         <Switch>
           <Route
             exact
@@ -104,8 +104,18 @@ const App = () => {
                 loggedInStatus={loggedInStatus}
               />
             )}
+      />
+          <Route
+            exact path={"/setup-user-profile"}
+            render={props => (
+              <Login {...props} handleLogin={handleLogin}
+                handleLogout={handleLogout}
+                loggedInStatus={loggedInStatus}
+              />
+            )}
           />
 
+      
           <Route path="/game" component={Game} />
           <Route path="/choose-game-options" component={ChooseGameOptions} />
 

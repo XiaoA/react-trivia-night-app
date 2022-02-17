@@ -14,6 +14,7 @@ const Question = () => {
         <h2>{currentQuestion.question}</h2>
       </div>
 
+    
       <div className="answers is-centered">
         {gameState.answers.map((answer, index) => (
           <Answer

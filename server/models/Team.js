@@ -1,17 +1,11 @@
 const Sequelize = require('sequelize');
 const db = require('../config/database');
 
-const Player = db.define('player', {
-  username: {
+const Team = db.define('team', {
+  teamName: {
+    field: 'team_name',
     type: Sequelize.STRING
-  },
-  userId: {
-    field: 'user_id',    
-    type: Sequelize.INTEGER
-  },
-  email: {
-    type: Sequelize.STRING //limit?
-  },
+    },
   createdAt: {
     field: 'created_at',
     type: Sequelize.DATE
@@ -23,8 +17,8 @@ const Player = db.define('player', {
   
 });
 
-Player.sync().then(() => {
+Team.sync().then(() => {
   console.log('table created');
 });
 
-module.exports = Player;
+module.exports = Team;

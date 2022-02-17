@@ -1,46 +1,42 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../config/database');
-const Player = require('../models/Player');
+const Team = require('../models/Team');
 const Sequelize = require('sequelize');
 const cors = require('cors');
 
-// Get All Players
+// Get All Teams
 router.get('/', (request, response) =>
-  Player.findAll()
-    .then(players => {
-      console.log(players)
+  Team.findAll()
+    .then(teams => {
+      console.log(teams)
       response.sendStatus(200);
     })
     .catch(error => console.log(error)));
 
-// Display Add Player Form
+// Display Add Team Form
 router.get('/add', (request, response) => response.render('add'));
 
 
-//Add a Player
+//Add a Team
 router.post('/add', (request, response) => {
-  let { username, userId, email } = request.body
+  let { teamName } = request.body
 
   let errors = [];
-  if (!username) {
-    errors.push({ text: 'Please pick a username' });
+  if (!teamName) {
+    errors.push({ text: 'Please pick a team name' });
   }
 
   if (errors.length > 0) {
     response.json(response, {
       errors,
-      username,
-      userId,
-      email
+      teamName
     });
   } else {
-    Player.create({
-      username,
-      userId,
-      email
+    Team.create({
+      teamName,
     })
-      .then(player => response.redirect('/players'))
+      .then(team => response.redirect('/teams'))
       .catch(error => console.log(error));
   }
 })

@@ -1,16 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import axios from 'axios';
 import "./Register.css";
 import { Link, useHistory } from "react-router-dom";
 
-const Register = ({ handleLogin, handleLogout, loggedInStatus, history }) => {
+const Register = ({ handleLogin, handleLogout, loggedInStatus }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [password_confirmation, setPasswordConfirmation] = useState('');
+  const [userId, setUserId] = useState(0)
 
-   const handleSuccessfulAuth = (data) => {
+  let history = useHistory()
+
+  const handleSuccessfulAuth = (data) => {
+    setUserId(data.user.id)
     handleLogin(data);
-    history.push("/setup-user-profile");
+    history.push({
+      pathname: "/setup-user-profile",
+      userId: data.user.id,
+      email: data.user.email
+    });
   }
 
   const handleSubmit = (event) => {

@@ -12,9 +12,9 @@ if (process.env.NODE_ENV === "development") {
 
 ReactDOM.render(
   <React.StrictMode>
-    <GameProvider>
-      <App />
-    </GameProvider>
+      <GameProvider>
+        <App />
+      </GameProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );

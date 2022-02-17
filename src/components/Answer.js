@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { GameContext } from "../contexts/GameContext";
 
 
@@ -25,12 +25,13 @@ const Answer = ({
       <div className="answer-option">{choiceMap[index]}</div>
       <div
         className="answer-text"
-        onClick={() => dispatch({ type: "SELECT_ANSWER" })}
+    //    onClick={() => dispatch({ type: "SELECT_ANSWER" })}
+    onClick={() => dispatch({ type: "SHOW_ANSWER" })}
         title="nextButton"
       >
         {answerText}
       </div>
-    </div>
+      </div>
   );
 };
 

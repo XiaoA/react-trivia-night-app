@@ -8,6 +8,7 @@ const Login = ({ handleLogin, history }) => {
 
   const handleSuccessfulLogin = (data) => {
     handleLogin(data);
+    console.log('login data', data)
     history.push("/dashboard");
   }
 
