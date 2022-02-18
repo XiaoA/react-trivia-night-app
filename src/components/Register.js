@@ -3,7 +3,10 @@ import axios from 'axios';
 import "./Register.css";
 import { Link, useHistory } from "react-router-dom";
 
-const Register = ({ handleLogin, handleLogout, loggedInStatus }) => {
+const Register = ({ handleLogin, handleLogout, isLoggedIn }) => {
+  // console.log('handleLogin', handleLogin)
+  // console.log('handleLogout', handleLogout)
+  // console.log('loggedInStatus', loggedInStatus)  
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [password_confirmation, setPasswordConfirmation] = useState('');

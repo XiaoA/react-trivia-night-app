@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
+import { BrowserRouter, Route, Switch, Redirect, useLocation } from "react-router-dom";
 import "./App.css";
 import Game from "./components/Game";
 import Register from "./components/Register";
@@ -18,18 +18,19 @@ import ChooseGameOptions from './components/ChooseGameOptions';
 import axios from 'axios';
 
 const App = () => {
-  const [loggedInStatus, setLoggedInStatus] = useState("NOT_LOGGED_IN");
-  const [user, setUser] = useState({});
- 
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [currentUser, setCurrentUser] = useState({});
+  const [redirectToPreviousPage, setRedirectToPreviousPage] = useState(false);
+
   const checkLoginStatus = () => {
     axios.get(`${process.env.REACT_APP_AUTHENTICATION_BASEURL}/logged_in`, { withCredentials: true })
       .then(response => {
-        if (response.data.logged_in && loggedInStatus === "NOT_LOGGED_IN") {
-          setLoggedInStatus("LOGGED_IN");
-          setUser(response.data.user)
-        } else if (!response.data.logged_in && loggedInStatus === "LOGGED_IN") {
-          setLoggedInStatus("NOT_LOGGED_IN");
-          setUser({})
+        if (response.data.logged_in && isLoggedIn === false) {
+          setIsLoggedIn(true);
+          setCurrentUser(response.data.user)
+        } else if (!response.data.logged_in && isLoggedIn === true) {
+          isLoggedIn(false);
+          setCurrentUser({})
         }
       }
       )
@@ -43,27 +44,49 @@ const App = () => {
   }, [])
 
   const handleLogout = () => {
-    setLoggedInStatus("NOT_LOGGED_IN");
-    setUser({})
+    setIsLoggedIn(false)
+    setCurrentUser({})
+  }
+  
+  const handleLogin = (data) => {
+    setIsLoggedIn(true)
+    setCurrentUser(data.user);
+    setRedirectToPreviousPage(true)
   }
 
-  const handleLogin = (data) => {
-    setLoggedInStatus("LOGGED_IN");
-    setUser(data.user);
+  const { state } = useLocation()
+
+ 
+
+  function PrivateRoute({ children, ...rest }) {
+    return (
+      <Route {...rest} render={(location) => {
+        return isLoggedIn
+          ? children
+          : <Redirect to={{
+            pathname: '/login',
+            state: { from: location}
+          }} />
+       }} />
+      
+    )
+  }
+   if (redirectToPreviousPage === true) {
+  return <Redirect to={state?.from || "/"} />
   }
 
   return (
     <div className="App">
       <BrowserRouter>
-      <NavBar loggedInStatus={loggedInStatus}/>
+      <NavBar isLoggedIn={isLoggedIn} />
         <Switch>
           <Route
             exact
             path={"/"}
             render={props => (
               <Home {...props} handleLogin={handleLogin}
-                handleLogout={handleLogout}
-                loggedInStatus={loggedInStatus}
+              handleLogout={handleLogout}
+              isLoggedIn={isLoggedIn}
               />
             )}
           />
@@ -71,7 +94,7 @@ const App = () => {
 
           <Route path={"/dashboard"} render={props => (
             <Dashboard {...props} handleLogout={handleLogout}
-              loggedInStatus={loggedInStatus}
+              isLoggedIn={isLoggedIn}
             />
           )}
           />
@@ -81,7 +104,7 @@ const App = () => {
             render={props => (
               <Register {...props} handleLogin={handleLogin}
                 handleLogout={handleLogout}
-                loggedInStatus={loggedInStatus}
+                isLoggedIn={isLoggedIn}
               />
             )}
           />
@@ -91,7 +114,7 @@ const App = () => {
             render={props => (
               <SetupUserProfile {...props} handleLogin={handleLogin}
                 handleLogout={handleLogout}
-                loggedInStatus={loggedInStatus}
+                isLoggedIn={isLoggedIn}
               />
             )}
           />
@@ -101,24 +124,24 @@ const App = () => {
             render={props => (
               <Login {...props} handleLogin={handleLogin}
                 handleLogout={handleLogout}
-                loggedInStatus={loggedInStatus}
+                isLoggedIn={isLoggedIn}
               />
             )}
-      />
+          />
           <Route
             exact path={"/setup-user-profile"}
             render={props => (
               <Login {...props} handleLogin={handleLogin}
                 handleLogout={handleLogout}
-                loggedInStatus={loggedInStatus}
+                isLoggedIn={isLoggedIn}
               />
             )}
           />
 
-      
+
           <Route path="/game" component={Game} />
           <Route path="/choose-game-options" component={ChooseGameOptions} />
-
+          <Redirect to="/" />
 
         </Switch>
       </BrowserRouter>

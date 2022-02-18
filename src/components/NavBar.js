@@ -3,7 +3,8 @@ import { NavLink } from "react-router-dom";
 
 
 
-const NavBar = ({ loggedInStatus }) => {
+const NavBar = ({ isLoggedIn }) => {
+
   return (
     <nav className="NavBar">
       <NavLink exact to="/">
@@ -16,10 +17,10 @@ const NavBar = ({ loggedInStatus }) => {
         Register
       </NavLink>
       <NavLink exact to="./login">
-        Login
+
       </NavLink>
       <NavLink exact to="/">
-        {loggedInStatus}
+        {isLoggedIn}
       </NavLink>
     </nav>
   );

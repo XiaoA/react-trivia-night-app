@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
-const Dashboard = ({ loggedInStatus }) => {
+const Dashboard = ({ isLoggedIn }) => {
 
   // function getPlayerList() { }
   // axios.get('http://localhost:5000/teams', {

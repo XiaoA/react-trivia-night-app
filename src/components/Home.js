@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import ChooseGameOptions from './ChooseGameOptions';
-const Home = ({ handleLogout, loggedInStatus }) => {
+const Home = ({ handleLogout, isLoggedIn }) => {
 
   const handleLogoutClick = () => {
     axios.delete(`${process.env.REACT_APP_AUTHENTICATION_BASEURL}/logout`, { withCredentials: true }).then(response => {

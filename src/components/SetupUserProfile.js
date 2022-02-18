@@ -3,7 +3,7 @@ import { Link, useLocation, useHistory } from "react-router-dom";
 import axios from 'axios';
 
 
-const SetupUserProfile = ({ handleLogin, handleLogout, loggedInStatus }) => {
+const SetupUserProfile = ({ handleLogin, handleLogout, isLoggedIn }) => {
   const [username, setUsername] = useState('');
   const [teamName, setTeamName] = useState('');
   const [userId, setUserId] = useState('');
