@@ -1,18 +1,39 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import axios from 'axios';
 import "./Register.css";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 
 const Register = ({ handleLogin, handleLogout, isLoggedIn }) => {
-  // console.log('handleLogin', handleLogin)
-  // console.log('handleLogout', handleLogout)
-  // console.log('loggedInStatus', loggedInStatus)  
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [password_confirmation, setPasswordConfirmation] = useState('');
   const [userId, setUserId] = useState(0)
+  const [username, setUsername] = useState('');
+  const [teamName, setTeamName] = useState('');
+  //  const [userId, setUserId] = useState('');
+  //  const [email, setEmail] = useState('');
 
-  let history = useHistory()
+  let location = useLocation();
+  let history = useHistory();
+
+useEffect(()=>{
+  if(isLoggedIn){
+    history.push("/dashboard")
+  }
+},[isLoggedIn,history]);
+
+  useEffect(() => {
+    setUserId(location.userId);
+    setEmail(location.email);
+  }, [location]);
+
+
+  const handleSuccessfulProfileSetup = (data) => {
+    handleLogin(data);
+    history.push("/dashboard");
+  }
+
+  //  let history = useHistory()
 
   const handleSuccessfulAuth = (data) => {
     setUserId(data.user.id)
@@ -25,6 +46,8 @@ const Register = ({ handleLogin, handleLogout, isLoggedIn }) => {
   }
 
   const handleSubmit = (event) => {
+    
+  function registerNewAccount() {
     axios.post(`${process.env.REACT_APP_AUTHENTICATION_BASEURL}/registrations`, {
       user: {
         email,
@@ -40,7 +63,49 @@ const Register = ({ handleLogin, handleLogout, isLoggedIn }) => {
     }).catch(error => {
       console.log('registration error', error);
     })
-    event.preventDefault();
+   // event.preventDefault();
+  }
+  
+  function createUsername() {
+    setUsername(event.target[0].value);
+    setTeamName(event.target[1].value);
+
+    axios.post('http://localhost:5000/players/add', {
+      username,
+      userId,
+      email
+    }).then(response => {
+      if (response.data.status === 'created') {
+        //handleSuccessfulProfileSetup(response.data)
+        console.log('player', response)
+      }
+    }).catch(error => {
+      console.log('registration error', error);
+    })
+    //    event.preventDefault();
+  }
+
+  function createTeamName() {
+    axios.post('http://localhost:5000/teams/add', {
+      teamName
+    }).then(response => {
+      if (response.data.status === 'created') {
+        handleSuccessfulProfileSetup(response.data)
+      }
+      console.log('team', response)
+    }).catch(error => {
+      console.log('registration error', error);
+    })
+
+  }
+
+  Promise.all([registerNewAccount, createUsername(), createTeamName()])
+    .then((response) => {
+      console.log('succcess')
+      //event.preventDefault(),
+      history.push("/dashboard")
+    });
+
   }
 
   return (
@@ -100,12 +165,46 @@ const Register = ({ handleLogin, handleLogout, isLoggedIn }) => {
                   </div>
                   <div className="field"></div>
 
-                  <button
 
+
+
+                  <div className="field">
+                    <div className="control">
+                      <input
+                        className="input is-large"
+                        type="text"
+                        name="text"
+                        value={username}
+                        placeholder="Choose a unique username"
+                        autoFocus=""
+                        onChange={event => setUsername(event.target.value)}
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  <div className="field">
+                    <div className="control">
+                      <input
+                        className="input is-large"
+                        type="text"
+                        name="text"
+                        placeholder="Choose a unique team name"
+                        value={teamName}
+                        onChange={event => setTeamName(event.target.value)}
+                        required
+                      />
+                    </div>
+                  </div>
+
+
+                  <div className="field"></div>
+
+                  <button
                     type="submit"
                     className="button is-block is-info is-large is-fullwidth"
                   >
-                    Register{" "}
+                    Submit{" "}
                     <i className="fa fa-sign-in" aria-hidden="true"></i>
                   </button>
                 </form>

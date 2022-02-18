@@ -1,10 +1,23 @@
 import React, { useEffect } from "react";
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
-const Dashboard = ({ currentUser, isLoggedIn }) => {
+const Dashboard = ({ currentUser, isLoggedIn, handleLogout }) => {
+  const history = useHistory();
 
-  console.log('props', isLoggedIn, currentUser)
+  useEffect(() => {
+    if (!isLoggedIn) {
+      history.push("/login")
+    }
+  }, [isLoggedIn, history]);
+
+  const handleLogoutClick = () => {
+    axios.delete(`${process.env.REACT_APP_AUTHENTICATION_BASEURL}/logout`, { withCredentials: true }).then(response => {
+      handleLogout();
+    }).catch(error => {
+      console.error("logout error", error);
+    })
+  }
 
   return (
     <>
@@ -36,7 +49,8 @@ const Dashboard = ({ currentUser, isLoggedIn }) => {
                 </div>
                 <div className="card-content">
                   <button className="button"><Link to="/game">Play Trivia!</Link></button>
-                  <button className="button"><Link to="/logout">Logout</Link></button>
+
+                  <button className="button" onClick={handleLogoutClick}>Log out</button>
 
                 </div>
               </div>

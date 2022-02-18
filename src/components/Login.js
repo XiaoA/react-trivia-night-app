@@ -1,11 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from 'axios';
-import { Link, useHistory } from "react-router-dom";
-import {useAuth} from '../contexts/AuthContext';
+import { Link } from "react-router-dom";
+import { useAuth } from '../contexts/AuthContext';
 
-const Login = ({ handleLogin, history }) => {
+const Login = ({ handleLogin, history, isLoggedIn }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      history.push("/dashboard")
+    }
+  }, [isLoggedIn, history]);
 
   const handleSuccessfulLogin = (data) => {
     handleLogin(data);

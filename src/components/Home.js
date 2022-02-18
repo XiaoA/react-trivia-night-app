@@ -1,16 +1,6 @@
 import React from 'react';
-import axios from 'axios';
-import { Link } from 'react-router-dom';
-import ChooseGameOptions from './ChooseGameOptions';
-const Home = ({ handleLogout, isLoggedIn }) => {
 
-  const handleLogoutClick = () => {
-    axios.delete(`${process.env.REACT_APP_AUTHENTICATION_BASEURL}/logout`, { withCredentials: true }).then(response => {
-      handleLogout();
-    }).catch(error => {
-      console.error("logout error", error);
-    })
-  }
+const Home = ({ isLoggedIn }) => {
 
   return (
     <section className="hero is-info is-fullheight">
@@ -23,6 +13,7 @@ const Home = ({ handleLogout, isLoggedIn }) => {
             <h2 className="subtitle">
               Test your knowledge alone or with friends!
             </h2>
+
           </div>
         </div>
       </div>
