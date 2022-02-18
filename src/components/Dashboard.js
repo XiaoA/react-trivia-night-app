@@ -2,18 +2,9 @@ import React, { useEffect } from "react";
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
-const Dashboard = ({ isLoggedIn }) => {
+const Dashboard = ({ currentUser, isLoggedIn }) => {
 
-  // function getPlayerList() { }
-  // axios.get('http://localhost:5000/teams', {
-  // }).then(response => {
-  //   if (response.data) {
-  //     console.log('teams', response)
-  //     return (playersList)
-  //   }
-  // }).catch(error => {
-  //   console.log('registration error', error);
-  // })
+  console.log('props', isLoggedIn, currentUser)
 
   return (
     <>
@@ -40,13 +31,13 @@ const Dashboard = ({ isLoggedIn }) => {
               <div className="card has-text-centered">
                 <div className="card-header">
                   <div className="card-header-title">
-                    USERNAME
+                    {currentUser.email}
                   </div>
                 </div>
                 <div className="card-content">
-      <button className="button"><Link to="/game">Play Trivia!</Link></button>
-            <button className="button"><Link to="/logout">Logout</Link></button>
-      
+                  <button className="button"><Link to="/game">Play Trivia!</Link></button>
+                  <button className="button"><Link to="/logout">Logout</Link></button>
+
                 </div>
               </div>
             </div>

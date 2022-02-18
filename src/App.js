@@ -20,7 +20,7 @@ import axios from 'axios';
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState({});
-  const [redirectToPreviousPage, setRedirectToPreviousPage] = useState(false);
+  //  const [redirectToPreviousPage, setRedirectToPreviousPage] = useState(false);
 
   const checkLoginStatus = () => {
     axios.get(`${process.env.REACT_APP_AUTHENTICATION_BASEURL}/logged_in`, { withCredentials: true })
@@ -47,46 +47,46 @@ const App = () => {
     setIsLoggedIn(false)
     setCurrentUser({})
   }
-  
+
   const handleLogin = (data) => {
     setIsLoggedIn(true)
     setCurrentUser(data.user);
-    setRedirectToPreviousPage(true)
+   // setRedirectToPreviousPage(true)
   }
 
-  const { state } = useLocation()
+  //  const { state } = useLocation()
 
- 
 
-  function PrivateRoute({ children, ...rest }) {
-    return (
-      <Route {...rest} render={(location) => {
-        return isLoggedIn
-          ? children
-          : <Redirect to={{
-            pathname: '/login',
-            state: { from: location}
-          }} />
-       }} />
-      
-    )
-  }
-   if (redirectToPreviousPage === true) {
-  return <Redirect to={state?.from || "/"} />
-  }
+
+  // function PrivateRoute({ children, ...rest }) {
+  //   return (
+  //     <Route {...rest} render={(location) => {
+  //       return isLoggedIn
+  //         ? children
+  //         : <Redirect to={{
+  //           pathname: '/login',
+  //           state: { from: location}
+  //         }} />
+  //      }} />
+
+  //   )
+  // }
+  //  if (redirectToPreviousPage === true) {
+  // return <Redirect to={state?.from || "/"} />
+  // }
 
   return (
     <div className="App">
       <BrowserRouter>
-      <NavBar isLoggedIn={isLoggedIn} />
+        <NavBar isLoggedIn={isLoggedIn} />
         <Switch>
           <Route
             exact
             path={"/"}
             render={props => (
               <Home {...props} handleLogin={handleLogin}
-              handleLogout={handleLogout}
-              isLoggedIn={isLoggedIn}
+                handleLogout={handleLogout}
+                isLoggedIn={isLoggedIn}
               />
             )}
           />
@@ -94,7 +94,8 @@ const App = () => {
 
           <Route path={"/dashboard"} render={props => (
             <Dashboard {...props} handleLogout={handleLogout}
-              isLoggedIn={isLoggedIn}
+            isLoggedIn={isLoggedIn}
+            currentUser={currentUser}
             />
           )}
           />
