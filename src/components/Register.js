@@ -16,6 +16,7 @@ const Register = ({ handleLogin, handleLogout, isLoggedIn }) => {
   let location = useLocation();
   let history = useHistory();
 
+  // Redirect Authenticated users from Register form
   useEffect(() => {
     if (isLoggedIn) {
       history.push("/dashboard")
@@ -27,7 +28,8 @@ const Register = ({ handleLogin, handleLogout, isLoggedIn }) => {
     setEmail(location.email);
   }, [location]);
 
-  const handleSuccessfulAuth = (data) => {
+  
+  const handleSuccessfulRegistration = (data) => {
     setUserId(data.user.id)
     handleLogin(data);
   }
@@ -47,7 +49,7 @@ const Register = ({ handleLogin, handleLogout, isLoggedIn }) => {
       { withCredentials: true }
     ).then(response => {
       if (response.data.status === 'created') {
-        handleSuccessfulAuth(response.data)
+        handleSuccessfulRegistration(response.data)
       }
     }).catch(error => {
       console.log('registration error', error);
