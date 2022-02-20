@@ -1,7 +1,13 @@
 html {
-  background: #fff;
+    background: #fff;
 }
 .register-card {
-  max-width: 500px;
-  background: #eee;
+    max-width: 500px;
+    background: #eee;
+}
+
+.error-message {
+    font-size: smaller;
+    font-weight: bolder;
+    color: #FF0000;
 }

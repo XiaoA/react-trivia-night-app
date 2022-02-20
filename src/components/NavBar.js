@@ -4,7 +4,6 @@ import axios from 'axios';
 
 
 const NavBar = ({ isLoggedIn, handleLogout }) => {
-
   const handleLogoutClick = () => {
     axios.delete(`${process.env.REACT_APP_AUTHENTICATION_BASEURL}/logout`, { withCredentials: true }).then(response => {
       handleLogout();

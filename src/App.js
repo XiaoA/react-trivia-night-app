@@ -10,17 +10,11 @@ import Dashboard from "./components/Dashboard";
 import SetupUserProfile from './components/SetupUserProfile';
 import ChooseGameOptions from './components/ChooseGameOptions';
 
-//import PrivateRoute from "./components/PrivateRoute";
-//import ForgotPassword from "./components/ForgotPassword";
-//import UpdateProfile from "./components/UpdateProfile";
-
-
 import axios from 'axios';
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState({});
-  //  const [redirectToPreviousPage, setRedirectToPreviousPage] = useState(false);
 
   const checkLoginStatus = () => {
     axios.get(`${process.env.REACT_APP_AUTHENTICATION_BASEURL}/logged_in`, { withCredentials: true })
@@ -51,34 +45,17 @@ const App = () => {
   const handleLogin = (data) => {
     setIsLoggedIn(true)
     setCurrentUser(data.user);
-   // setRedirectToPreviousPage(true)
-  }
+   }
 
-  //  const { state } = useLocation()
-
+ 
 
 
-  // function PrivateRoute({ children, ...rest }) {
-  //   return (
-  //     <Route {...rest} render={(location) => {
-  //       return isLoggedIn
-  //         ? children
-  //         : <Redirect to={{
-  //           pathname: '/login',
-  //           state: { from: location}
-  //         }} />
-  //      }} />
 
-  //   )
-  // }
-  //  if (redirectToPreviousPage === true) {
-  // return <Redirect to={state?.from || "/"} />
-  // }
-
+ 
   return (
     <div className="App">
       <BrowserRouter>
-        <NavBar isLoggedIn={isLoggedIn} />
+      <NavBar isLoggedIn={isLoggedIn} handleLogout={handleLogout} />
         <Switch>
           <Route
             exact
