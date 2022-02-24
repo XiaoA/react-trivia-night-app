@@ -13,6 +13,9 @@ const Register = ({ handleLogin, isLoggedIn }) => {
   const [userId, setUserId] = useState(0)
   const [username, setUsername] = useState('');
   const [teamName, setTeamName] = useState('');
+  // const [playerId, setPlayerId] = useState(0);
+  // const [isLeader, setIsLeader] = useState(true);
+  // const [teamId, setTeamId] = useState(0);
 
   let location = useLocation();
   let history = useHistory();
@@ -24,10 +27,6 @@ const Register = ({ handleLogin, isLoggedIn }) => {
     }
   }, [isLoggedIn, history]);
 
-  useEffect(() => {
-    setUserId(location.userId);
-    setEmail(location.email);
-  }, [location]);
 
   // Move through form steps
   function completeFormStep() {
@@ -39,8 +38,6 @@ const Register = ({ handleLogin, isLoggedIn }) => {
     completeFormStep();
   }
 
-
-
   // Initialize React Hook Form
   const { register, handleSubmit, errors, formState = { errors } } = useForm({
     mode: "onBlur"
@@ -48,7 +45,8 @@ const Register = ({ handleLogin, isLoggedIn }) => {
 
   // Handle Registration (Step One)
   const handleStepOneRegistration = (data) => {
-    setUserId(data.user.id) //redundant? see App.js handLogin()
+    setUserId(data.user.id) // see App.js handLogin()
+    //    setPlayerId(userId)
     handleLogin(data);
   }
 
@@ -64,6 +62,7 @@ const Register = ({ handleLogin, isLoggedIn }) => {
       axios.post(`${process.env.REACT_APP_AUTHENTICATION_BASEURL}/registrations`, {
         user: {
           email,
+          username,
           password,
           password_confirmation
         }
@@ -78,43 +77,42 @@ const Register = ({ handleLogin, isLoggedIn }) => {
       })
     }
 
-    function createUsername() {
-      axios.post('http://localhost:5000/players/add', {
-        username,
-        userId,
-        email
-      }).then(response => {
-        if (response.data.status === 'created') {
-          handleStepTwoRegistration(response.data)
-        }
-      }).catch(error => {
-        console.log('registration error', error);
-      })
-    }
-
     function createTeamName() {
-      axios.post('http://localhost:5000/teams/add', {
-        teamName
-      }).then(response => {
-        if (response.data.status === 'created') {
-          handleStepTwoRegistration(response.data)
-        }
-        console.log('team', response)
-      }).catch(error => {
-        console.log('registration error', error);
-      })
+      console.log('teamName', teamName)
     }
-    Promise.all([createNewAccount(), createUsername(), createTeamName()])
+    //   axios.post(`${process.env.REACT_APP_AUTHENTICATION_BASEURL}/teams`, {
+    //     team_name: teamName
+    //   }).then(response => {
+    //     if (response.data.status === 'created') {
+    //       handleStepTwoRegistration(response.data)
+    //     }
+    //     console.log('team', response)
+    //   }).catch(error => {
+    //     console.log('registration error', error);
+    //   })
+    // }
+
+    // function createTeamMember() {
+    //   axios.post(`${process.env.REACT_APP_AUTHENTICATION_BASEURL}/team_membership`, {
+    //     team_id: teamId,
+    //     user_id: userId,
+    //     is_leader: true
+    //   }).then(response => {
+    //     if (response.data.status === 'created') {
+    //       handleStepTwoRegistration(response.data)
+    //     }
+    //     console.log('team', response)
+    //   }).catch(error => {
+    //     console.log('registration error', error);
+    //   })
+    // }
+
+    //    Promise.all([createNewAccount(), createTeamName(), createTeamMember()])
+    Promise.all([createNewAccount()])
       .then((response) => {
-        console.log('succcess')
-        //event.preventDefault(),
         history.push("/dashboard")
       });
   }
-
-
-
-
 
   return (
     <>
@@ -198,6 +196,29 @@ const Register = ({ handleLogin, isLoggedIn }) => {
                       </div>
                     </div>
 
+                    <div className="field">
+                      <div className="control">
+                        <input
+                          className="input is-large"
+                          type="text"
+                          name="username"
+                          placeholder="Choose a unique username"
+                          autoFocus=""
+                          onChange={event => setUsername(event.target.value)}
+                          ref={register({
+                            required: 'You must select a unique username.',
+                            pattern: {
+                              value: /^[a-zA-Z0-9]+$/,
+                              message: 'Usernames should contain only numbers and letters.'
+                            }
+                          })}
+                        />
+                        {errors.username && (
+                          <p className="error-message">{errors.username.message}</p>
+                        )}
+                      </div>
+                    </div>
+
                     <button
                       type="submit"
                       className="button is-block is-info is-large is-fullwidth"
@@ -235,28 +256,7 @@ const Register = ({ handleLogin, isLoggedIn }) => {
                   <form onSubmit={handleSubmit(onSubmit)}>
 
 
-                    <div className="field">
-                      <div className="control">
-                        <input
-                          className="input is-large"
-                          type="text"
-                          name="username"
-                          placeholder="Choose a unique username"
-                          autoFocus=""
-                          onChange={event => setUsername(event.target.value)}
-                          ref={register({
-                            required: 'You must select a unique username.',
-                            pattern: {
-                              value: /^[a-zA-Z0-9]+$/,
-                              message: 'Usernames should contain only numbers and letters.'
-                            }
-                          })}
-                        />
-                        {errors.username && (
-                          <p className="error-message">{errors.username.message}</p>
-                        )}
-                      </div>
-                    </div>
+
 
                     <div className="field">
                       <div className="control">
@@ -265,12 +265,12 @@ const Register = ({ handleLogin, isLoggedIn }) => {
                           type="text"
                           name="teamName"
                           placeholder="Choose a unique team name"
-                          value={teamName}
+
                           autoFocus=""
                           onChange={event => setTeamName(event.target.value)}
                           ref={register({
                             required: "Please a unique team to play",
-                            minLength: {
+                            pattern: {
                               value: /^[a-zA-Z0-9]+$/,
                               message: 'Usernames should contain only numbers and letters.'
                             },

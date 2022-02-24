@@ -27,6 +27,7 @@ const Login = ({ handleLogin, history, isLoggedIn }) => {
     },
       { withCredentials: true }
     ).then(response => {
+      console.log('resp', response.data)
       if (response.data.logged_in) {
         handleSuccessfulLogin(response.data)
       }

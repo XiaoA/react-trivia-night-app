@@ -25,12 +25,16 @@ const NavBar = ({ isLoggedIn, handleLogout }) => {
           Home
         </NavLink>
         <NavLink className="navbar-item" exact to="./game">
-          Play
+          Quick Game
         </NavLink>
       </>
 
       {isLoggedIn && (
         <>
+          <NavLink className="navbar-item" exact to="./game-options">
+          Custom Game
+          </NavLink>
+
           <NavLink className="navbar-item" exact to="./dashboard">
             Dashboard
           </NavLink>

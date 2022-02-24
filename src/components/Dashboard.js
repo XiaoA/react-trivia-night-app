@@ -44,7 +44,7 @@ const Dashboard = ({ currentUser, isLoggedIn, handleLogout }) => {
               <div className="card has-text-centered">
                 <div className="card-header">
                   <div className="card-header-title">
-                    {currentUser.email}
+                    <p>{currentUser.username}</p>
                   </div>
                 </div>
                 <div className="card-content">
@@ -65,7 +65,6 @@ const Dashboard = ({ currentUser, isLoggedIn, handleLogout }) => {
                 </div>
                 <div className="card-content">
                   <li>Team A</li>
-                  <li>Team B</li>
                   <li>Team C</li>
                 </div>
               </div>

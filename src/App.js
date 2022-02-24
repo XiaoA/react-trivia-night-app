@@ -7,7 +7,6 @@ import Login from "./components/Login";
 import Home from "./components/Home";
 import NavBar from './components/NavBar';
 import Dashboard from "./components/Dashboard";
-import SetupUserProfile from './components/SetupUserProfile';
 import ChooseGameOptions from './components/ChooseGameOptions';
 
 import axios from 'axios';
@@ -45,17 +44,12 @@ const App = () => {
   const handleLogin = (data) => {
     setIsLoggedIn(true)
     setCurrentUser(data.user);
-   }
+  }
 
- 
-
-
-
- 
   return (
     <div className="App">
       <BrowserRouter>
-      <NavBar isLoggedIn={isLoggedIn} handleLogout={handleLogout} />
+        <NavBar isLoggedIn={isLoggedIn} handleLogout={handleLogout} />
         <Switch>
           <Route
             exact
@@ -71,8 +65,8 @@ const App = () => {
 
           <Route path={"/dashboard"} render={props => (
             <Dashboard {...props} handleLogout={handleLogout}
-            isLoggedIn={isLoggedIn}
-            currentUser={currentUser}
+              isLoggedIn={isLoggedIn}
+              currentUser={currentUser}
             />
           )}
           />
@@ -88,16 +82,6 @@ const App = () => {
           />
 
           <Route
-            path={"/setup-user-profile"}
-            render={props => (
-              <SetupUserProfile {...props} handleLogin={handleLogin}
-                handleLogout={handleLogout}
-                isLoggedIn={isLoggedIn}
-              />
-            )}
-          />
-
-          <Route
             path={"/login"}
             render={props => (
               <Login {...props} handleLogin={handleLogin}
@@ -106,19 +90,10 @@ const App = () => {
               />
             )}
           />
-          <Route
-            exact path={"/setup-user-profile"}
-            render={props => (
-              <Login {...props} handleLogin={handleLogin}
-                handleLogout={handleLogout}
-                isLoggedIn={isLoggedIn}
-              />
-            )}
-          />
 
 
-          <Route path="/game" component={Game} />
-          <Route path="/choose-game-options" component={ChooseGameOptions} />
+      <Route path="/game/" component={Game} />
+          <Route path="/game-options" component={ChooseGameOptions} />
           <Redirect to="/" />
 
         </Switch>
