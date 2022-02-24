@@ -1,5 +1,5 @@
-import React, { useContext, useEffect } from "react";
-import { GameContext} from "../contexts/GameContext";
+import React, { useContext, useEffect, useState } from "react";
+import { GameContext } from "../contexts/GameContext";
 import GameCard from "./GameCard";
 
 function Game() {
@@ -14,6 +14,7 @@ function Game() {
     fetch(triviaApiEndpoint)
       .then((response) => response.json())
       .then((data) => {
+
         dispatch({ type: "OPEN_TRIVIA_API_QUESTIONS", payload: data.results });
       });
   });

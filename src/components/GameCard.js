@@ -26,15 +26,6 @@ function GameCard() {
               </div>
             </div>
           </div>
-          <div className="buttons is-centered">
-            <button
-              className="button next-button"
-              onClick={() => dispatch({ type: "NEXT_QUESTION" })}
-              title="nextButton"
-            >
-              Next Question
-            </button>
-          </div>
         </div>
       )}
     </>
