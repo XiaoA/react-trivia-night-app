@@ -4,7 +4,6 @@ import "./Register.css";
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
 
-
 const Register = ({ handleLogin, isLoggedIn }) => {
   const [formStep, setFormStep] = useState(1);
   const [email, setEmail] = useState('');
@@ -17,7 +16,7 @@ const Register = ({ handleLogin, isLoggedIn }) => {
   // const [isLeader, setIsLeader] = useState(true);
   // const [teamId, setTeamId] = useState(0);
 
-  let location = useLocation();
+  // let location = useLocation();
   let history = useHistory();
 
   //  Redirect Authenticated users from Register form
@@ -129,6 +128,7 @@ const Register = ({ handleLogin, isLoggedIn }) => {
                 <div className="box">
                   <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="field">
+                      <label hidden className="label">Email</label>
                       <div className="control">
                         <input
                           className="input is-large"
@@ -152,6 +152,7 @@ const Register = ({ handleLogin, isLoggedIn }) => {
                     </div>
 
                     <div className="field">
+                      <label className="label hidden">Password</label>
                       <div className="control">
                         <input
                           className="input is-large"
@@ -175,6 +176,7 @@ const Register = ({ handleLogin, isLoggedIn }) => {
 
 
                     <div className="field">
+                      <label className="label hidden">Password Confirmation</label>
                       <div className="control">
                         <input
                           className="input is-large"
@@ -197,6 +199,7 @@ const Register = ({ handleLogin, isLoggedIn }) => {
                     </div>
 
                     <div className="field">
+                      <label className="label hidden">Username</label>
                       <div className="control">
                         <input
                           className="input is-large"

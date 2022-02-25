@@ -9,8 +9,6 @@ test("render Answer", async () => {
   );
 });
 
-
-
 const answerProps = {
   answers: ["1789", "1823", "1756", "1799"],
   correctAnswer: "1789"
