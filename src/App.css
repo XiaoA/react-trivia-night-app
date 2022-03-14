@@ -36,10 +36,10 @@ html {
 
 /* Game Logic (Right/Wrong Answers) */
 .correct-answer {
-  border: 5px solid #1ea55b;
+    border: 5px solid #1ea55b;
 }
 
-.correct-answer .answer-option {
+.correct-answer .answer-button {
   background: #1ea55b;
 }
 
@@ -47,7 +47,7 @@ html {
   border: 5px solid #dc0a0a;
 }
 
-.wrong-answer .answer-option {
+.wrong-answer .answer-button {
   background: #dc0a0a;
 }
 

@@ -15,6 +15,7 @@ ReactDOM.render(
     <GameProvider>
       <App />
     </GameProvider>
+
   </React.StrictMode>,
   document.getElementById("root")
 );

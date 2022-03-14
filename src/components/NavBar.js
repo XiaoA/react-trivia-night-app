@@ -1,65 +1,70 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
+import axios from 'axios';
 
-const NavBar = () => {
 
+const NavBar = ({ isLoggedIn, handleLogout }) => {
+  const handleLogoutClick = () => {
+    axios.delete(`${process.env.REACT_APP_AUTHENTICATION_BASEURL}/logout`, { withCredentials: true }).then(response => {
+      handleLogout();
+    }).catch(error => {
+      console.error("logout error", error);
+    })
+  }
 
   return (
-    <nav className="navbar" role="navigation" aria-label="main navigation">
-      <div className="navbar-brand">
-        <Link to="/" className="navbar-item">
-          Trivia Night
-        </Link>
+    <nav className="navbar">
+      <button className="button navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </button>
 
-        <a
-          role="button"
-          className="navbar-burger"
-          aria-label="menu"
-          aria-expanded="false"
-          data-target="navbarBasicExample"
-        >
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-        </a>
-      </div>
+      <>
+        <NavLink className="navbar-item" exact to="/">
+          Home
+        </NavLink>
+        <NavLink className="navbar-item" exact to="./game">
+          Quick Game
+        </NavLink>
+      </>
 
-      <div id="navbarBasicExample" className="navbar-menu">
-        <div className="navbar-start">
-          <div className="navbar-item has-dropdown is-hoverable">
-            <a className="navbar-link">current user email</a>
+      {isLoggedIn && (
+        <>
+          <NavLink className="navbar-item" exact to="./game-options">
+            Custom Game
+          </NavLink>
 
-            <div className="navbar-dropdown">
-              <Link to="/dashboard" className="navbar-item">
-                Dashboard
-              </Link>
+          <NavLink className="navbar-item" exact to="./dashboard">
+            Dashboard
+          </NavLink>
 
-              <Link to="/leaderboard" className="navbar-item">
-                Learderboard
-              </Link>
+          <NavLink className="navbar-end navbar-item" exact to="./logout">
+            <button className="button is-warning" onClick={handleLogoutClick}>Log out</button>
 
-              <Link to="/game" className="navbar-item">
-                Play Trivia
-              </Link>
-            </div>
-          </div>
-        </div>
 
-        <div className="navbar-end">
-          <div className="navbar-item">
-            <div className="buttons">
-              <Link to="/register" className="button is-primary">
-                <strong>Sign up</strong>
-              </Link>
-              <Link to="/login" className="button is-light">
-                Log in
-              </Link>
-            </div>
-          </div>
-        </div>
-      </div>
+          </NavLink>
+        </>
+      )}
+
+
+      {!isLoggedIn && (
+        <>
+          <NavLink className="navbar-end navbar-item" exact to="./register">
+            <button className="button is-warning">
+              Register
+            </button>
+          </NavLink>
+          <NavLink className="navbar-item" exact to="./login">
+            <button className="button is-success">
+              Login
+            </button>
+          </NavLink>
+        </>
+      )}
+
     </nav>
   );
-};
+}
 
 export default NavBar;

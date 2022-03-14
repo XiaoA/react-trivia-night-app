@@ -1,30 +1,29 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Route, Switch, Redirect, useLocation } from "react-router-dom";
 import "./App.css";
 import Game from "./components/Game";
 import Register from "./components/Register";
 import Login from "./components/Login";
 import Home from "./components/Home";
-// import NavBar from './components/NavBar';
+import NavBar from './components/NavBar';
 import Dashboard from "./components/Dashboard";
-//import PrivateRoute from "./components/PrivateRoute";
-//import ForgotPassword from "./components/ForgotPassword";
-//import UpdateProfile from "./components/UpdateProfile";
+import ChooseGameOptions from './components/ChooseGameOptions';
+
 import axios from 'axios';
 
 const App = () => {
-  const [loggedInStatus, setLoggedInStatus] = useState("NOT_LOGGED_IN");
-  const [user, setUser] = useState({});
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [currentUser, setCurrentUser] = useState({});
 
   const checkLoginStatus = () => {
     axios.get(`${process.env.REACT_APP_AUTHENTICATION_BASEURL}/logged_in`, { withCredentials: true })
       .then(response => {
-        if (response.data.logged_in && loggedInStatus === "NOT_LOGGED_IN") {
-          setLoggedInStatus("LOGGED_IN");
-          setUser(response.data.user)
-        } else if (!response.data.logged_in && loggedInStatus === "LOGGED_IN") {
-          setLoggedInStatus("NOT_LOGGED_IN");
-          setUser({})
+        if (response.data.logged_in && isLoggedIn === false) {
+          setIsLoggedIn(true);
+          setCurrentUser(response.data.user)
+        } else if (!response.data.logged_in && isLoggedIn === true) {
+          isLoggedIn(false);
+          setCurrentUser({})
         }
       }
       )
@@ -38,28 +37,27 @@ const App = () => {
   }, [])
 
   const handleLogout = () => {
-    setLoggedInStatus("NOT_LOGGED_IN");
-    setUser({})
+    setIsLoggedIn(false)
+    setCurrentUser({})
   }
 
   const handleLogin = (data) => {
-    setLoggedInStatus("LOGGED_IN");
-    setUser(data.user);
+    setIsLoggedIn(true)
+    setCurrentUser(data.user);
   }
 
   return (
     <div className="App">
       <BrowserRouter>
-
+        <NavBar isLoggedIn={isLoggedIn} handleLogout={handleLogout} />
         <Switch>
-      
           <Route
             exact
             path={"/"}
             render={props => (
               <Home {...props} handleLogin={handleLogin}
                 handleLogout={handleLogout}
-                loggedInStatus={loggedInStatus}
+                isLoggedIn={isLoggedIn}
               />
             )}
           />
@@ -67,7 +65,8 @@ const App = () => {
 
           <Route path={"/dashboard"} render={props => (
             <Dashboard {...props} handleLogout={handleLogout}
-              loggedInStatus={loggedInStatus}
+              isLoggedIn={isLoggedIn}
+              currentUser={currentUser}
             />
           )}
           />
@@ -77,22 +76,25 @@ const App = () => {
             render={props => (
               <Register {...props} handleLogin={handleLogin}
                 handleLogout={handleLogout}
-                loggedInStatus={loggedInStatus}
+                isLoggedIn={isLoggedIn}
               />
             )}
           />
+
           <Route
             path={"/login"}
             render={props => (
               <Login {...props} handleLogin={handleLogin}
                 handleLogout={handleLogout}
-                loggedInStatus={loggedInStatus}
+                isLoggedIn={isLoggedIn}
               />
             )}
           />
 
-          <Route path="/game" component={Game} />
 
+          <Route path="/game" component={Game} />
+          <Route path="/game-options" component={ChooseGameOptions} />
+          <Redirect to="/" />
 
         </Switch>
       </BrowserRouter>

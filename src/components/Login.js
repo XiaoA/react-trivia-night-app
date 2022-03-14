@@ -1,17 +1,36 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from 'axios';
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { useForm } from 'react-hook-form';
 
-const Login = ({ handleLogin, history }) => {
+const Login = ({ handleLogin, history, isLoggedIn }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  // Redirect Authenticated users from Login form
+  useEffect(() => {
+    if (isLoggedIn) {
+      history.push("/dashboard")
+    }
+  }, [isLoggedIn, history]);
+
+
+  const onSubmit = (data, event) => {
+    completeLogin(data);
+  }
+
   const handleSuccessfulLogin = (data) => {
     handleLogin(data);
+    console.log('login data', data)
     history.push("/dashboard");
   }
 
-  const handleSubmit = (event) => {
+  const { register, handleSubmit, errors, formState = { errors } } = useForm({
+    mode: "onBlur"
+  })
+
+  function completeLogin(data) {
+    //  const handleSubmit = (event) => {
     axios.post(`${process.env.REACT_APP_AUTHENTICATION_BASEURL}/sessions`, {
       user: {
         email,
@@ -20,13 +39,13 @@ const Login = ({ handleLogin, history }) => {
     },
       { withCredentials: true }
     ).then(response => {
+      console.log('resp', response.data)
       if (response.data.logged_in) {
         handleSuccessfulLogin(response.data)
       }
     }).catch(error => {
       console.log('login error', error);
     })
-    event.preventDefault();
   }
 
   return (
@@ -42,7 +61,7 @@ const Login = ({ handleLogin, history }) => {
               </p>
               <div className="box">
                 <figure className="avatar"></figure>
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit(onSubmit)}>
                   <div className="field">
                     <div className="control">
                       <input
@@ -51,10 +70,19 @@ const Login = ({ handleLogin, history }) => {
                         name="email"
                         placeholder="Your Email"
                         autoFocus=""
-                        value={email}
+
                         onChange={event => setEmail(event.target.value)}
-                        required
+                        ref={register({
+                          required: 'Email is required.',
+                          pattern: {
+                            value: /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/,
+                            message: 'Invalid email address.'
+                          }
+                        })}
                       />
+                      {errors.email && (
+                        <p className="error-message">{errors.email.message}</p>
+                      )}
                     </div>
                   </div>
 
@@ -65,10 +93,18 @@ const Login = ({ handleLogin, history }) => {
                         type="password"
                         name="password"
                         placeholder="Your Password"
-                        value={password}
                         onChange={event => setPassword(event.target.value)}
-                        required
+                        ref={register({
+                          required: "Password is required",
+                          minLength: {
+                            value: 8,
+                            message: "Password must be at least 8 characters"
+                          },
+                        })}
                       />
+                      {errors.password && (
+                        <p className="error-message">{errors.password.message}</p>
+                      )}
                     </div>
                   </div>
 
@@ -78,7 +114,7 @@ const Login = ({ handleLogin, history }) => {
                 </form>
               </div>
               <p className="has-text-white">
-                <Link to="/register"> Sign Up </Link>
+                <Link to="/register"> Sign Up </Link> |
                 <Link to="/"> Forgot Password?</Link>
               </p>
             </div>
