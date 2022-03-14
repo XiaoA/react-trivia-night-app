@@ -92,7 +92,7 @@ const App = () => {
           />
 
 
-      <Route path="/game/" component={Game} />
+          <Route path="/game" component={Game} />
           <Route path="/game-options" component={ChooseGameOptions} />
           <Redirect to="/" />
 

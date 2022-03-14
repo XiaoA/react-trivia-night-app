@@ -44,14 +44,14 @@ const Dashboard = ({ currentUser, isLoggedIn, handleLogout }) => {
               <div className="card has-text-centered">
                 <div className="card-header">
                   <div className="card-header-title">
-                    <p>{currentUser.username}</p>
+                    {currentUser &&
+                      <p>{currentUser.username}</p>
+                    }
                   </div>
                 </div>
                 <div className="card-content">
                   <button className="button"><Link to="/game">Play Trivia!</Link></button>
-
                   <button className="button" onClick={handleLogoutClick}>Log out</button>
-
                 </div>
               </div>
             </div>

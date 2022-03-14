@@ -4,7 +4,7 @@ import axios from 'axios';
 const ChooseGameOptions = () => {
 
   function handleOptionsClick(event) {
-    
+
     event.preventDefault();
   }
 
@@ -55,7 +55,7 @@ const ChooseGameOptions = () => {
                     </select>
                   </div>
 
-                    <button className="button is-primary" type="submit" onClick={handleOptionsClick}>Get Questions</button>
+                  <button className="button is-primary" type="submit" onClick={handleOptionsClick}>Get Questions</button>
                 </form>
               </div>
             </div>
