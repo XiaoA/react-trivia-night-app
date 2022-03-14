@@ -27,8 +27,6 @@ const Answer = ({
     return () => clearInterval(interval);
   }, []);
 
-
-
   return (
     <div className={`answer answer-button ${correctAnswerClass} ${wrongAnswerClass} ${disabledClass}`}
       onClick={() => onSelectAnswer(answerText)}>
