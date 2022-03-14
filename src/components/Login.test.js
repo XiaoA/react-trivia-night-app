@@ -43,10 +43,10 @@ test("should be able to type an email", () => {
 
 test("should be able to type a password", () => {
   const { passwordInputElement } = typeIntoForm({ password: "password!" });
-  expect(passwordInputElement.value).toBe("!drowssap");
+  expect(passwordInputElement.value).toBe("password!");
 });
 
-test.skip("should show email error message on invalid email", () => {
+test("should show email error message on invalid email", async () => {
   expect(
     screen.queryByText(/invalid email address/i)
   ).not.toBeInTheDocument();
@@ -57,11 +57,11 @@ test.skip("should show email error message on invalid email", () => {
   clickOnSubmitButton();
 
   expect(
-    screen.queryByText(/invalid email address/i)
+    await screen.findByText(/invalid email address/i)
   ).toBeInTheDocument();
 });
 
-test.skip("should show password error if password is less than 5 characters", () => {
+test("should show password error if password is less than 8 characters", async () => {
   typeIntoForm({ email: "andrew@example.com" });
 
   expect(
@@ -72,10 +72,11 @@ test.skip("should show password error if password is less than 5 characters", ()
 
   typeIntoForm({ password: "123" });
 
-  clickOnSubmitButton();
+  userEvent.tab();
+  //  clickOnSubmitButton();
 
   expect(
-    screen.queryByText(
+    await screen.findByText(
       /password must be at least 8 characters/i
     )
   ).toBeInTheDocument();
