@@ -11,10 +11,6 @@ const Register = ({ handleLogin, isLoggedIn }) => {
   const [password_confirmation, setPasswordConfirmation] = useState('');
   const [userId, setUserId] = useState(0)
   const [username, setUsername] = useState('');
-  const [teamName, setTeamName] = useState('');
-  // const [playerId, setPlayerId] = useState(0);
-  // const [isLeader, setIsLeader] = useState(true);
-  // const [teamId, setTeamId] = useState(0);
 
   // let location = useLocation();
   let history = useHistory();
@@ -45,17 +41,10 @@ const Register = ({ handleLogin, isLoggedIn }) => {
   // Handle Registration (Step One)
   const handleStepOneRegistration = (data) => {
     setUserId(data.user.id) // see App.js handLogin()
-    //    setPlayerId(userId)
     handleLogin(data);
   }
 
-  // Handle Profile Setup (Step Two)
-  const handleStepTwoRegistration = (data) => {
-    handleLogin(data);
-  }
-
-
-  // Step Three: Registration
+  // Step Two: Confirm and Complete Registration
   function completeRegistration(data) {
     function createNewAccount() {
       axios.post(`${process.env.REACT_APP_AUTHENTICATION_BASEURL}/registrations`, {
@@ -76,37 +65,7 @@ const Register = ({ handleLogin, isLoggedIn }) => {
       })
     }
 
-    function createTeamName() {
-      console.log('teamName', teamName)
-    }
-    //   axios.post(`${process.env.REACT_APP_AUTHENTICATION_BASEURL}/teams`, {
-    //     team_name: teamName
-    //   }).then(response => {
-    //     if (response.data.status === 'created') {
-    //       handleStepTwoRegistration(response.data)
-    //     }
-    //     console.log('team', response)
-    //   }).catch(error => {
-    //     console.log('registration error', error);
-    //   })
-    // }
 
-    // function createTeamMember() {
-    //   axios.post(`${process.env.REACT_APP_AUTHENTICATION_BASEURL}/team_membership`, {
-    //     team_id: teamId,
-    //     user_id: userId,
-    //     is_leader: true
-    //   }).then(response => {
-    //     if (response.data.status === 'created') {
-    //       handleStepTwoRegistration(response.data)
-    //     }
-    //     console.log('team', response)
-    //   }).catch(error => {
-    //     console.log('registration error', error);
-    //   })
-    // }
-
-    //    Promise.all([createNewAccount(), createTeamName(), createTeamMember()])
     Promise.all([createNewAccount()])
       .then((response) => {
         history.push("/dashboard")
@@ -125,10 +84,16 @@ const Register = ({ handleLogin, isLoggedIn }) => {
                 <p className="subtitle has-text-white">
                   Please register to proceed.
                 </p>
+                <p className="subtitle has-text-warning">
+                  Your password is encrypted and securely stored. It will not be shared with anyone, or used for any purpose other than to log you in.
+                </p>
+                <p className="subtitle has-text-warning">
+                  Your username will be used to identify you to other users.
+                </p>
                 <div className="box">
                   <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="field">
-                      <label hidden className="label">Email</label>
+
                       <div className="control">
                         <input
                           className="input is-large"
@@ -152,7 +117,6 @@ const Register = ({ handleLogin, isLoggedIn }) => {
                     </div>
 
                     <div className="field">
-                      <label className="label hidden">Password</label>
                       <div className="control">
                         <input
                           className="input is-large"
@@ -176,7 +140,6 @@ const Register = ({ handleLogin, isLoggedIn }) => {
 
 
                     <div className="field">
-                      <label className="label hidden">Password Confirmation</label>
                       <div className="control">
                         <input
                           className="input is-large"
@@ -198,14 +161,15 @@ const Register = ({ handleLogin, isLoggedIn }) => {
                       </div>
                     </div>
 
+
+
                     <div className="field">
-                      <label className="label hidden">Username</label>
                       <div className="control">
                         <input
                           className="input is-large"
                           type="text"
                           name="username"
-                          placeholder="Choose a unique username"
+                          placeholder="Choose a Unique Username"
                           autoFocus=""
                           onChange={event => setUsername(event.target.value)}
                           ref={register({
@@ -233,15 +197,12 @@ const Register = ({ handleLogin, isLoggedIn }) => {
                   </form>
                 </div>
               </div>
+              <p className="has-text-white">
+                <Link to="/login"> Login </Link> |
+                <Link to="/"> Forgot Password </Link>
+              </p>
             </div>
           </div>
-
-          <p className="has-text-white">
-            <Link to="/login"> Login </Link>
-            <Link to="/"> Forgot Password </Link>
-          </p>
-
-
         </section >
       )}
 
@@ -250,65 +211,11 @@ const Register = ({ handleLogin, isLoggedIn }) => {
           <div className="hero-body">
             <div className="container has-text-centered">
               <div className="column is-4 is-offset-4">
-                <h3 className="title has-text-white">Great. Now, Lets Set Up Your Profile</h3>
-                <hr className="login-hr" />
-                <p className="subtitle has-text-white">
-                  Please create a unique username and team name for the site.
-                </p>
-                <div className="box">
-                  <form onSubmit={handleSubmit(onSubmit)}>
-
-
-
-
-                    <div className="field">
-                      <div className="control">
-                        <input
-                          className="input is-large"
-                          type="text"
-                          name="teamName"
-                          placeholder="Choose a unique team name"
-
-                          autoFocus=""
-                          onChange={event => setTeamName(event.target.value)}
-                          ref={register({
-                            required: "Please a unique team to play",
-                            pattern: {
-                              value: /^[a-zA-Z0-9]+$/,
-                              message: 'Usernames should contain only numbers and letters.'
-                            },
-                          })}
-                        />
-                      </div>
-                    </div>
-
-
-                    <div className="field"></div>
-                    <button
-                      type="submit"
-                      className="button is-block is-info is-large is-fullwidth"
-                    >
-                      Submit{" "}
-                      <i className="fa fa-sign-in" aria-hidden="true"></i>
-                    </button>
-                  </form>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-      )}
-
-      {formStep === 3 && (
-        <section className="block step-3-form hero is-dark is-fullheight">
-          <div className="hero-body">
-            <div className="container has-text-centered">
-              <div className="column is-4 is-offset-4">
                 <h3 className="title has-text-white">Youre all set.</h3>
                 <hr className="login-hr" />
                 <p className="subtitle has-text-white">
                   If everything looks good...
-                  {email} | {username} | {teamName}
+                  {email} | {username}
                 </p>
                 <div className="box">
                   <button onClick={completeRegistration}

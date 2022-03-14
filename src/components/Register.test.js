@@ -1,5 +1,5 @@
 import React from "react";
-import { render, screen, mutationObserverMock } from '../test-utils'
+import { render, screen, mutationObserverMock, waitFor } from '../test-utils'
 import userEvent from "@testing-library/user-event";
 
 import Register from './Register';
@@ -49,17 +49,12 @@ beforeEach(() => {
   );
 })
 
-// test.todo("should display a blank form on page load")
-//   test("inputs should be initially empty", () => {
-//     expect(screen.getByLabelText(/email/i).value).toBe("");
-//     expect(screen.getByLabelText("Password").value).toBe("");
-//     expect(screen.getByLabelText(/confirm password/i).value).toBe("");
-//     expect(screen.getByLabelText(/username/i).value).toBe("");
-//   });
-
-// test("should show no error if every input is valid", () => {
-
-// })
+test("inputs should be initially empty", () => {
+  expect(screen.getByPlaceholderText(/your email/i).value).toBe("");
+  expect(screen.getByPlaceholderText("Your Password").value).toBe("");
+  expect(screen.getByPlaceholderText(/confirm your password/i).value).toBe("");
+  expect(screen.getByPlaceholderText(/choose a unique username/i).value).toBe("");
+});
 
 test("should be able to type an email", () => {
   const { emailInputElement } = typeIntoForm({ email: "andrew@example.com" });
@@ -79,7 +74,7 @@ test("should be able to type a confirm password", () => {
 });
 
 
-test.skip("should show email error message on invalid email", () => {
+test("should show email error message on invalid email", async () => {
   expect(
     screen.queryByText(/invalid email address/i)
   ).not.toBeInTheDocument();
@@ -87,14 +82,16 @@ test.skip("should show email error message on invalid email", () => {
   typeIntoForm({
     email: "andrew",
   });
-  clickOnSubmitButton();
+
+  userEvent.tab();
+  //  clickOnSubmitButton();
 
   expect(
-    screen.queryByText(/invalid email address/i)
+    await screen.findByText("Invalid email address.")
   ).toBeInTheDocument();
 });
 
-test.skip("should show password error if password is less than 5 characters", () => {
+test("should show password error if password is less than 8 characters", async () => {
   typeIntoForm({ email: "andrew@example.com" });
 
   expect(
@@ -105,16 +102,16 @@ test.skip("should show password error if password is less than 5 characters", ()
 
   typeIntoForm({ password: "123" });
 
-  clickOnSubmitButton();
+  userEvent.tab();
 
   expect(
-    screen.queryByText(
+    await screen.findByText(
       /password must be at least 8 characters/i
     )
   ).toBeInTheDocument();
 });
 
-test.skip("should show confirm password error if passwords don't match", () => {
+test.skip("should show confirm password error if passwords don't match", async () => {
   typeIntoForm({
     email: "andrew@example.com",
     password: "12345",
@@ -128,32 +125,50 @@ test.skip("should show confirm password error if passwords don't match", () => {
     confirmPassword: "123456",
   });
 
-  clickOnSubmitButton();
+  userEvent.tab();
 
   expect(
-    screen.queryByText(/the passwords don't match. try again/i)
+    await screen.findByText(/the passwords don't match. try again/i)
   ).toBeInTheDocument();
 });
 
-test.skip("should show no error message if every input is valid", () => {
+test("should show no error message if every input is valid", async () => {
   typeIntoForm({
-    email: "andrew@example.com",
+    email: "andrew-test@example.com",
     password: "12345",
     confirmPassword: "12345",
+    username: "andrew-test"
   });
   clickOnSubmitButton();
 
-  expect(
-    screen.queryByText(/invalid email address/i)
-  ).not.toBeInTheDocument();
-  expect(
-    screen.queryByText(
-      /password must be at least 8 characters/i
-    )
-  ).not.toBeInTheDocument();
-  expect(
-    screen.queryByText(/the passwords don't match. try again/i)
-  ).not.toBeInTheDocument();
+  await waitFor(() => {
+    expect(
+      screen.queryByText(/invalid email address/i)
+    ).not.toBeInTheDocument();
+
+    expect(
+      screen.queryByText(
+        /password must be at least 8 characters/i
+      )
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByText(/the passwords don't match. try again/i)
+    ).not.toBeInTheDocument();
+  });
 });
 
-test.todo("should require a valid username")
+test("should require a valid username", async () => {
+  typeIntoForm({
+    email: "andrew-test@example.com",
+    password: "password",
+    confirmPassword: "password",
+    username: ""
+  });
+
+  clickOnSubmitButton();
+
+  expect(
+    await screen.findByText(/you must select a unique username/i)
+  ).toBeInTheDocument()
+})
+
