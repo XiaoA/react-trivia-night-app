@@ -25,7 +25,7 @@ const Answer = ({
       dispatch({ type: "NEXT_QUESTION" })
     }, 20000);
     return () => clearInterval(interval);
-  }, []);
+  }, [dispatch, questionTime]);
 
   return (
     <div className={`answer answer-button ${correctAnswerClass} ${wrongAnswerClass} ${disabledClass}`}

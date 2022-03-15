@@ -55,21 +55,6 @@ const Dashboard = ({ currentUser, isLoggedIn, handleLogout }) => {
                 </div>
               </div>
             </div>
-
-            <div className="column">
-              <div className="card">
-                <div className="card-header">
-                  <div className="card-header-title">
-                    My Teams
-                  </div>
-                </div>
-                <div className="card-content">
-                  <li>Team A</li>
-                  <li>Team C</li>
-                </div>
-              </div>
-            </div>
-
           </div>
         </div>
       </div>
