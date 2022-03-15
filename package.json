@@ -47,5 +47,9 @@
   },
   "msw": {
     "workerDirectory": "public"
+  },
+  "devDependencies": {
+    "cypress": "^9.5.2",
+    "eslint-plugin-cypress": "^2.12.1"
   }
 }
