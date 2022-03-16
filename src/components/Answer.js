@@ -1,5 +1,6 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext } from "react";
 import { GameContext } from "../contexts/GameContext";
+
 
 const Answer = ({
   answerText,
@@ -17,15 +18,6 @@ const Answer = ({
   const correctAnswerClass = isCorrectAnswer ? "correct-answer" : "";
   const wrongAnswerClass = isWrongAnswer ? "wrong-answer" : "";
   const disabledClass = currentAnswer ? "disabled-answer" : "";
-  let [questionTime, setQuestionTime] = useState(0)
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setQuestionTime(questionTime + 1)
-      dispatch({ type: "NEXT_QUESTION" })
-    }, 20000);
-    return () => clearInterval(interval);
-  }, [dispatch, questionTime]);
 
   return (
     <div className={`answer answer-button ${correctAnswerClass} ${wrongAnswerClass} ${disabledClass}`}
