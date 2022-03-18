@@ -46,6 +46,7 @@ const App = () => {
     setCurrentUser(data.user);
   }
 
+
   return (
     <div className="App">
       <BrowserRouter>

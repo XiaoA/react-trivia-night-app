@@ -11,9 +11,10 @@ const Register = ({ handleLogin, isLoggedIn }) => {
   const [password_confirmation, setPasswordConfirmation] = useState('');
   const [userId, setUserId] = useState(0)
   const [username, setUsername] = useState('');
-  const [error, setError] = useState('');
+  const [errorList, setErrorList] = useState([]);
+  //let errorList;
 
-  let htmlString;
+  //  let htmlString;
   // let location = useLocation();
   let history = useHistory();
 
@@ -67,19 +68,25 @@ const Register = ({ handleLogin, isLoggedIn }) => {
         const errorParser = new DOMParser()
         const htmlResponse = errorParser.parseFromString(errorMessage, 'text/html')
         const errorText = htmlResponse.getElementsByClassName('message')
-        const validationError = errorText[0].innerText
-        console.log(validationError);
+        const errorInnerText = errorText[0].innerText
+        const errorList = errorInnerText.split(',')
+        setErrorList(errorList)
+
+        console.log('errorList', errorList);
       })
     }
 
+
     Promise.all([createNewAccount()])
       .then((response) => {
-        history.push("/dashboard")
+        //history.push("/dashboard")
+
       });
   }
 
   return (
     <>
+      {errorList ? <h2>{errorList}</h2> : null}
       {formStep === 1 && (
         <section className={formStep === 1 ? "block step-1-form hero is-dark is-fullheight" : "hidden"}>
           <div className="hero-body">
