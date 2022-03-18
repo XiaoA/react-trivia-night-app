@@ -11,7 +11,9 @@ const Register = ({ handleLogin, isLoggedIn }) => {
   const [password_confirmation, setPasswordConfirmation] = useState('');
   const [userId, setUserId] = useState(0)
   const [username, setUsername] = useState('');
+  const [error, setError] = useState('');
 
+  let htmlString;
   // let location = useLocation();
   let history = useHistory();
 
@@ -40,7 +42,7 @@ const Register = ({ handleLogin, isLoggedIn }) => {
 
   // Handle Registration (Step One)
   const handleStepOneRegistration = (data) => {
-    setUserId(data.user.id) // see App.js handLogin()
+    setUserId(data.user.id) // see App.js handleLogin()
     handleLogin(data);
   }
 
@@ -61,10 +63,14 @@ const Register = ({ handleLogin, isLoggedIn }) => {
           handleStepOneRegistration(response.data)
         }
       }).catch(error => {
-        console.log('registration error', error);
+        const errorMessage = error.response.data
+        const errorParser = new DOMParser()
+        const htmlResponse = errorParser.parseFromString(errorMessage, 'text/html')
+        const errorText = htmlResponse.getElementsByClassName('message')
+        const validationError = errorText[0].innerText
+        console.log(validationError);
       })
     }
-
 
     Promise.all([createNewAccount()])
       .then((response) => {
@@ -84,6 +90,7 @@ const Register = ({ handleLogin, isLoggedIn }) => {
                 <p className="subtitle has-text-white">
                   Please register to proceed.
                 </p>
+
                 <p className="subtitle has-text-warning">
                   Your password is encrypted and securely stored. It will not be shared with anyone, or used for any purpose other than to log you in.
                 </p>
