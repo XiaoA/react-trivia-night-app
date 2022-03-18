@@ -14,8 +14,6 @@ describe('User Registration', () => {
       .type('cypressuser')
     user.get('form > .button')
       .click()
-    user.get('.box > .button')
-      .click()
     user.url('include', '/dashboard')
 
     // Display Page Title
