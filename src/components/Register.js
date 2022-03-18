@@ -70,11 +70,12 @@ const Register = ({ handleLogin, isLoggedIn }) => {
 
   return (
     <>
-      {errorList ? <h2>{errorList}</h2> : null}
+
       <section className="block step-1-form hero is-dark is-fullheight">
         <div className="hero-body">
           <div className="container has-text-centered">
             <div className="column is-4 is-offset-4">
+
               <h3 className="title has-text-white">Sign Up</h3>
               <hr className="login-hr" />
               <p className="subtitle has-text-white">
@@ -87,7 +88,11 @@ const Register = ({ handleLogin, isLoggedIn }) => {
               <p className="subtitle has-text-warning">
                 Your username will be used to identify you to other users.
               </p>
+
               <div className="box">
+      {errorList ? <h2 className="has-text-centered has-text-danger">{errorList.map((error) => {
+        return(<li>{error}</li>)
+      })}</h2> : null}
                 <form onSubmit={handleSubmit(onSubmit)}>
                   <div className="field">
 
