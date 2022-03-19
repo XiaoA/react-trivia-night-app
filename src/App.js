@@ -34,7 +34,7 @@ const App = () => {
 
   useEffect(() => {
     checkLoginStatus()
-  }, [])
+  })
 
   const handleLogout = () => {
     setIsLoggedIn(false)
@@ -45,6 +45,8 @@ const App = () => {
     setIsLoggedIn(true)
     setCurrentUser(data.user);
   }
+
+  console.log(currentUser);
 
   return (
     <div className="App">
