@@ -22,7 +22,7 @@ const Register = ({ handleLogin, isLoggedIn }) => {
 
   // On submit
   const onSubmit = (data, event) => {
-    console.log(data, event)
+    console.log('Logging you in...');
   }
 
   // Initialize React Hook Form
