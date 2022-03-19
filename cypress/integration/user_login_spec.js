@@ -1,4 +1,4 @@
-describe('User Login', () => {
+describe('Successful User Login', () => {
   it('redirects authenticated user to dashboard', () => {
 
     const user = cy;
@@ -34,5 +34,73 @@ describe('User Login', () => {
 
     user.get(':nth-child(1) > .card > .card-content > :nth-child(3)')
       .should('have.text', 'Incorrect Questions')
+  });
+})
+
+describe('User Login Email Validation Errors', () => {
+  it('displays errors when email does not exist in database', () => {
+    const user = cy;
+    user.visit('/login')
+    user.get(':nth-child(1) > .control > .input').type('cypress-invalid-email@example.com')
+    user.get(':nth-child(1) > .control > .input').type('password')
+    user.get('form > .button').click()
+
+    user.get('.error-link')
+      .should('have.text', 'There was a problem with your login. Please make sure your email and password are correct.')
+  });
+
+  it('displays errors when email is invalid', () => {
+    const user = cy;
+    user.visit('/login')
+    user.get(':nth-child(1) > .control > .input').type('cypress')
+    user.get(':nth-child(1) > .control > .input').type('password')
+    user.get('form > .button').click()
+    user.get('.error-message')
+      .should('have.text', 'Invalid email address.')
+  });
+
+
+  it('displays errors when email input is blank', () => {
+    const user = cy;
+    user.visit('/login')
+    user.get(':nth-child(1) > .control > .input').type('')
+    user.get(':nth-child(1) > .control > .input').type('password')
+    user.get('form > .button').click()
+    user.get('.error-message')
+      .should('have.text', 'Email is required.')
+  });
+})
+
+describe('User Login Password Validation Errors', () => {
+  it('displays errors when password does not exist in database', () => {
+    const user = cy;
+    user.visit('/login')
+    user.get(':nth-child(1) > .control > .input').type('cypress-user@example.com')
+    user.get(':nth-child(1) > .control > .input').type('invalid!password')
+    user.get('form > .button').click()
+    user.get('.error-link')
+      .should('have.text', 'There was a problem with your login. Please make sure your email and password are correct.')
+  });
+
+  it('displays errors when password input is too short', () => {
+    const user = cy;
+    user.visit('/login')
+    user.get(':nth-child(1) > .control > .input').type('cypress-user@example.com')
+    user.get(':nth-child(1) > .control > .input').type('passwor')
+    user.get('form > .button').click()
+    user.get('.error-message')
+      .should('have.text', 'Password must be at least 8 characters')
+    user.get('.error-link')
+      .should('have.text', 'There was a problem with your login. Please make sure your email and password are correct.')
+  });
+
+  it('displays errors when password input is blank', () => {
+    const user = cy;
+    user.visit('/login')
+    user.get(':nth-child(1) > .control > .input').type('cypress-user@example.com')
+    user.get(':nth-child(1) > .control > .input').type('')
+    user.get('form > .button').click()
+    user.get('.error-message')
+      .should('have.text', 'Password is required')
   });
 })
