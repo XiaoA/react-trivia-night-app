@@ -68,6 +68,10 @@ const Register = ({ handleLogin, isLoggedIn }) => {
       });
   }
 
+  const generateKey = (pre) => {
+    return `${ pre }_${ new Date().getTime() }`;
+  }
+  
   return (
     <>
 
@@ -90,8 +94,9 @@ const Register = ({ handleLogin, isLoggedIn }) => {
               </p>
 
               <div className="box">
-      {errorList ? <h2 className="has-text-centered has-text-danger">{errorList.map((error) => {
-        return(<li>{error}</li>)
+      {errorList ? <h2 className="has-text-danger error-list">{errorList.map((error, key) => {
+        return(
+          <li key={generateKey(error)}>{error}</li>)
       })}</h2> : null}
                 <form onSubmit={handleSubmit(onSubmit)}>
                   <div className="field">
