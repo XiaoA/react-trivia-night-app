@@ -25,25 +25,11 @@ const Dashboard = ({ currentUser, isLoggedIn, handleLogout }) => {
         <div className="content">
           <h1 className="has-text-centered">Dashboard</h1>
           <div className="columns">
-            <div className="column">
-              <div className="card">
-                <div className="card-header">
-                  <div className="card-header-title">
-                    My Stats
-                  </div>
-                </div>
-                <div className="card-content">
-                  <li>Total Questions</li>
-                  <li>Correct Questions</li>
-                  <li>Incorrect Questions</li>
-                </div>
-              </div>
-            </div>
 
             <div className="column">
               <div className="card has-text-centered">
                 <div className="card-header">
-                  <div className="card-header-title">
+                  <div className="card-header-title is-centered">
                     {currentUser &&
                       <p>{currentUser.username}</p>
                     }
@@ -55,6 +41,24 @@ const Dashboard = ({ currentUser, isLoggedIn, handleLogout }) => {
                 </div>
               </div>
             </div>
+
+            <div className="column">
+              <div className="card">
+                <div className="card-header">
+                  <div className="card-header-title is-centered">
+                    My Stats
+                  </div>
+                </div>
+                <div className="card-content">
+                  <li>Total Questions</li>
+                  <li>Correct Questions</li>
+                  <li>Incorrect Questions</li>
+                </div>
+              </div>
+            </div>
+
+
+
           </div>
         </div>
       </div>
