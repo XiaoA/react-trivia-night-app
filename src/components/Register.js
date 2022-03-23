@@ -3,7 +3,6 @@ import { Link, useHistory, useLocation } from "react-router-dom";
 import "./Register.css";
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
-import configureAxiosDefaults from '../helpers/axiosHelpers';
 
 const Register = ({ handleLogin, isLoggedIn }) => {
   const [email, setEmail] = useState('');
@@ -38,7 +37,6 @@ const Register = ({ handleLogin, isLoggedIn }) => {
 
   function completeRegistration(data) {
     function createNewAccount() {
-      configureAxiosDefaults();
       axios.post(`${process.env.REACT_APP_AUTHENTICATION_BASEURL}/registrations`, {
         user: {
           email,
@@ -47,6 +45,7 @@ const Register = ({ handleLogin, isLoggedIn }) => {
           password_confirmation
         }
       },
+        { withCredentials: true }
       ).then(response => {
         if (response.data.status === 'created') {
           handleRegistration(response.data)
@@ -70,9 +69,9 @@ const Register = ({ handleLogin, isLoggedIn }) => {
   }
 
   const generateKey = (pre) => {
-    return `${pre}_${new Date().getTime()}`;
+    return `${ pre }_${ new Date().getTime() }`;
   }
-
+  
   return (
     <>
 
@@ -95,10 +94,10 @@ const Register = ({ handleLogin, isLoggedIn }) => {
               </p>
 
               <div className="box">
-                {errorList ? <h2 className="has-text-danger error-list">{errorList.map((error, key) => {
-                  return (
-                    <li key={generateKey(error)}>{error}</li>)
-                })}</h2> : null}
+      {errorList ? <h2 className="has-text-danger error-list">{errorList.map((error, key) => {
+        return(
+          <li key={generateKey(error)}>{error}</li>)
+      })}</h2> : null}
                 <form onSubmit={handleSubmit(onSubmit)}>
                   <div className="field">
 
