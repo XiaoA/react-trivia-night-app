@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import { Link } from "react-router-dom";
 import { useForm } from 'react-hook-form';
+import configureAxiosDefaults from '../helpers/axiosHelpers';
 
 const Login = ({ handleLogin, history, isLoggedIn }) => {
   const [email, setEmail] = useState('');
@@ -31,21 +32,20 @@ const Login = ({ handleLogin, history, isLoggedIn }) => {
   })
 
   function completeLogin(data) {
-    //  const handleSubmit = (event) => {
+    configureAxiosDefaults()
     axios.post(`${process.env.REACT_APP_AUTHENTICATION_BASEURL}/sessions`, {
       user: {
         email,
         password
       }
     },
-      { withCredentials: true }
     ).then(response => {
-      if(response.data.error) {
+      if (response.data.error) {
         setLoginErrorMessage(response.data.error)
       }
       if (response.data.logged_in) {
         handleSuccessfulLogin(response.data)
-      } 
+      }
     }).catch(error => {
       console.log('login error', error);
     })
@@ -53,7 +53,7 @@ const Login = ({ handleLogin, history, isLoggedIn }) => {
 
   return (
     <>
-      
+
       <section className="hero is-dark is-fullheight">
         <div className="hero-body">
           <div className="container has-text-centered">
@@ -64,7 +64,7 @@ const Login = ({ handleLogin, history, isLoggedIn }) => {
                 Please login to proceed.
               </p>
               <div className="box">
-      {loginErrorMessage ? <h2 className="has-text-danger error-list">{loginErrorMessage}</h2> : null}
+                {loginErrorMessage ? <h2 className="has-text-danger error-list">{loginErrorMessage}</h2> : null}
                 <figure className="avatar"></figure>
                 <form onSubmit={handleSubmit(onSubmit)}>
                   <div className="field">
