@@ -21,10 +21,12 @@ function Game() {
 
         dispatch({ type: "OPEN_TRIVIA_API_QUESTIONS", payload: data.results });
       });
-  });
+  }, [dispatch, gameState.questions.length]);
 
   useInterval(() => {
-
+    if (gameState.showResults == true) {
+      return;
+    }
     setQuestionTimer(questionTimer);
     dispatch({ type: "NEXT_QUESTION" })
     return () => clearInterval(questionTimer)
