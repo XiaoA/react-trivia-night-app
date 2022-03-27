@@ -24,7 +24,7 @@ function Game() {
   }, [dispatch, gameState.questions.length]);
 
   useInterval(() => {
-    if (gameState.showResults == true) {
+    if (gameState.showResults === true) {
       return;
     }
     setQuestionTimer(questionTimer);
