@@ -17,8 +17,10 @@ const GameOver = () => {
                   <div className="game-over">
                     <div className="game-stats">
                       <div>
-                        You got {gameState.correctAnswersCount} of{" "}
-                        {gameState.questions.length} correct.
+                        <h3>
+                          You got {gameState.correctAnswersCount} of{" "}
+                          {gameState.questions.length} correct.
+                        </h3>
                       </div>
                     </div>
 
@@ -39,10 +41,10 @@ const GameOver = () => {
                   <div className="game-over">
                     <div className="game-stats">
                       {savedAnswers.map((answer, index) => (
-                        <div className="table-container is-bordered is-striped is-hoverable is-fullwidth" key={index}>
-                          <table className="display-answers is-bordered is-striped is-hoverable is-fullwidth">
+                        <div className="table table-container is-hoverable is-fullwidth" key={index}>
+                          <table className="display-answers">
                             <thead>
-                              <tr className="is-bordered is-striped is-hoverable is-fullwidth">
+                              <tr>
                                 <th>Question Number</th>
                                 <th>Correct Answer</th>
                                 <th>Your Answer</th>
@@ -51,7 +53,8 @@ const GameOver = () => {
                             </thead>
 
                             <tbody>
-                              <tr className="is-bordered is-striped is-hoverable is-fullwidth">
+
+                              <tr>
                                 <td>{answer[0].questionIndex + 1}</td>
                                 <td>{answer[0].correctAnswer}</td>
                                 <td>{answer[0].playerAnswer}</td>
