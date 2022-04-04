@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import { GameContext } from "../contexts/GameContext";
 import GameCard from "./GameCard";
 import useInterval from 'use-interval'
@@ -8,7 +8,7 @@ function Game() {
   const [questionTimer, setQuestionTimer] = React.useState(20000);
 
   const triviaApiEndpoint =
-    "https://opentdb.com/api.php?amount=5&encode=url3986";
+        "https://opentdb.com/api.php?amount=5&encode=url3986";
 
 
   useEffect(() => {
@@ -20,6 +20,7 @@ function Game() {
       .then((data) => {
 
         dispatch({ type: "OPEN_TRIVIA_API_QUESTIONS", payload: data.results });
+
       });
   }, [dispatch, gameState.questions.length]);
 
@@ -28,8 +29,9 @@ function Game() {
       return;
     }
     setQuestionTimer(questionTimer);
-    dispatch({ type: "NEXT_QUESTION" })
-    return () => clearInterval(questionTimer)
+    dispatch({ type: "NEXT_QUESTION" });
+
+    return () => clearInterval(questionTimer);
   }, questionTimer);
 
   return (
