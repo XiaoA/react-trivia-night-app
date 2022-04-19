@@ -20,13 +20,10 @@ const App = () => {
       .then(response => {
         if (response.data.logged_in && isLoggedIn === false) {
           setIsLoggedIn(true);
-          setCurrentUser(response.data.user)
         } else if (!response.data.logged_in && isLoggedIn === true) {
-          isLoggedIn(false);
-          setCurrentUser({})
+          handleLogout()
         }
-      }
-      )
+      })
       .catch(error => {
         console.log("check login error", error)
       });
@@ -34,7 +31,7 @@ const App = () => {
 
   useEffect(() => {
     checkLoginStatus()
-  })
+  }, [checkLoginStatus])
 
   const handleLogout = () => {
     setIsLoggedIn(false)
@@ -43,10 +40,8 @@ const App = () => {
 
   const handleLogin = (data) => {
     setIsLoggedIn(true)
-    setCurrentUser(data.user);
+    setCurrentUser({ ...data })
   }
-
-  console.log(currentUser);
 
   return (
     <div className="App">
@@ -93,10 +88,10 @@ const App = () => {
             )}
           />
 
-
           <Route path="/game" component={Game} />
+
           <Route path="/game-options" component={ChooseGameOptions} />
-      
+
           <Redirect to="/" />
 
         </Switch>

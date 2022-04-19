@@ -1,15 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 import { Link, useHistory, useLocation } from "react-router-dom";
 import "./Register.css";
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
+import { v4 as uuidv4 } from 'uuid';
 
 const Register = ({ handleLogin, isLoggedIn }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [password_confirmation, setPasswordConfirmation] = useState('');
   const [username, setUsername] = useState('');
+  const [uuid, setUuid] = useState('');
   const [errorList, setErrorList] = useState([]);
+
   let history = useHistory();
 
   //  Redirect Authenticated users from Register form
@@ -17,13 +20,26 @@ const Register = ({ handleLogin, isLoggedIn }) => {
     if (isLoggedIn) {
       history.push("/dashboard")
     }
+
+    return () => {
+      console.log('return from history push')
+    }
   }, [isLoggedIn, history]);
+
+
+  useEffect(() => {
+    setUuid(uuidv4())
+  }, [])
 
 
   // On submit
   const onSubmit = (data, event) => {
-    console.log('Logging you in...');
+    completeRegistration(data);
   }
+
+  useEffect(() => {
+    console.log('Logging you in...');
+  }, [onSubmit])
 
   // Initialize React Hook Form
   const { register, handleSubmit, errors, formState = { errors } } = useForm({
@@ -35,12 +51,14 @@ const Register = ({ handleLogin, isLoggedIn }) => {
     history.push("/dashboard")
   }
 
+
   function completeRegistration(data) {
     function createNewAccount() {
       axios.post(`${process.env.REACT_APP_AUTHENTICATION_BASEURL}/registrations`, {
         user: {
           email,
           username,
+          uuid: uuid,
           password,
           password_confirmation
         }
@@ -63,18 +81,49 @@ const Register = ({ handleLogin, isLoggedIn }) => {
       })
     }
 
-    Promise.all([createNewAccount()])
+    function createPlayerTable() {
+      axios.post(`${process.env.REACT_APP_TRIVIA_SERVER_BASEURL}/players`, {
+        userUuid: uuid,
+        username: username
+      }).then(response => {
+        if (response.data.status === 'created') {
+          console.log('response data', response.data)
+          console.log('created player account.')
+        }
+      }).catch(error => {
+        console.log('player account registration error', error);
+      })
+    }
+
+    function createGamesTable() {
+      axios.post(`${process.env.REACT_APP_TRIVIA_SERVER_BASEURL}/games`, {
+        userUuid: uuid,
+        totalQuestions: 0,
+        totalCorrectAnswers: 0,
+        totalIncorrectAnswers: 0
+      }).then(response => {
+        if (response.data.status === 'created') {
+          console.log('created games table.')
+        }
+      }).catch(error => {
+        console.log('games table setup error', error);
+      })
+    }
+
+    Promise.all([createNewAccount(), createPlayerTable(), createGamesTable()])
       .then((response) => {
+        console.log('promise all response', response)
       });
   }
 
+
+  // Generate a custom key; Credit: https://stackoverflow.com/a/39549510
   const generateKey = (pre) => {
-    return `${ pre }_${ new Date().getTime() }`;
+    return `${pre}_${new Date().getTime()}`;
   }
-  
+
   return (
     <>
-
       <section className="block step-1-form hero is-dark is-fullheight">
         <div className="hero-body">
           <div className="container has-text-centered">
@@ -94,10 +143,10 @@ const Register = ({ handleLogin, isLoggedIn }) => {
               </p>
 
               <div className="box">
-      {errorList ? <h2 className="has-text-danger error-list">{errorList.map((error, key) => {
-        return(
-          <li key={generateKey(error)}>{error}</li>)
-      })}</h2> : null}
+                {errorList ? <h2 className="has-text-danger error-list">{errorList.map((error, key) => {
+                  return (
+                    <li key={generateKey(error)}>{error}</li>)
+                })}</h2> : null}
                 <form onSubmit={handleSubmit(onSubmit)}>
                   <div className="field">
 
@@ -194,7 +243,7 @@ const Register = ({ handleLogin, isLoggedIn }) => {
                       )}
                     </div>
                   </div>
-                  <button onClick={completeRegistration}
+                  <button
                     type="submit"
                     className="button is-block is-info is-large is-fullwidth"
                   >
