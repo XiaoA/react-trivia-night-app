@@ -53,8 +53,8 @@ const Register = ({ handleLogin, isLoggedIn }) => {
 
 
   function completeRegistration(data) {
-    function createNewAccount() {
-      axios.post(`${process.env.REACT_APP_AUTHENTICATION_BASEURL}/registrations`, {
+    async function createNewAccount() {
+      await axios.post(`${process.env.REACT_APP_AUTHENTICATION_BASEURL}/registrations`, {
         user: {
           email,
           username,
@@ -63,26 +63,26 @@ const Register = ({ handleLogin, isLoggedIn }) => {
           password_confirmation
         }
       },
-        { withCredentials: true }
-      ).then(response => {
-        if (response.data.status === 'created') {
-          handleRegistration(response.data)
-        }
-      }).catch(error => {
-        const errorMessage = error.response.data
-        const errorParser = new DOMParser()
-        const htmlResponse = errorParser.parseFromString(errorMessage, 'text/html')
-        const errorText = htmlResponse.getElementsByClassName('message')
-        const errorInnerText = errorText[0].innerText
-        const errorList = errorInnerText.split(',')
-        setErrorList(errorList)
+                 { withCredentials: true }
+                ).then(response => {
+                  if (response.data.status === 'created') {
+                    handleRegistration(response.data)
+                  }
+                }).catch(error => {
+                  const errorMessage = error.response.data
+                  const errorParser = new DOMParser()
+                  const htmlResponse = errorParser.parseFromString(errorMessage, 'text/html')
+                  const errorText = htmlResponse.getElementsByClassName('message')
+                  const errorInnerText = errorText[0].innerText
+                  const errorList = errorInnerText.split(',')
+                  setErrorList(errorList)
 
-        console.log('errorList', errorList);
-      })
+                  console.log('errorList', errorList);
+                })
     }
 
-    function createPlayerTable() {
-      axios.post(`${process.env.REACT_APP_TRIVIA_SERVER_BASEURL}/players`, {
+    async function createPlayerTable() {
+      await axios.post(`${process.env.REACT_APP_TRIVIA_SERVER_BASEURL}/players`, {
         userUuid: uuid,
         username: username
       }).then(response => {
@@ -95,27 +95,27 @@ const Register = ({ handleLogin, isLoggedIn }) => {
       })
     }
 
-    function createGamesTable() {
-      axios.post(`${process.env.REACT_APP_TRIVIA_SERVER_BASEURL}/games`, {
-        userUuid: uuid,
-        totalQuestions: 0,
-        totalCorrectAnswers: 0,
-        totalIncorrectAnswers: 0
-      }).then(response => {
-        if (response.data.status === 'created') {
-          console.log('created games table.')
-        }
-      }).catch(error => {
-        console.log('games table setup error', error);
-      })
-    }
-
-    Promise.all([createNewAccount(), createPlayerTable(), createGamesTable()])
+    Promise.all([createNewAccount(), createPlayerTable()])
       .then((response) => {
-        console.log('promise all response', response)
+        createGamesTable();
       });
   }
 
+
+  async function createGamesTable() {
+    await axios.post(`${process.env.REACT_APP_TRIVIA_SERVER_BASEURL}/games`, {
+      userUuid: uuid,
+      totalQuestions: 0,
+      totalCorrectAnswers: 0,
+      totalIncorrectAnswers: 0
+    }).then(response => {
+      if (response.data.status === 'created') {
+        console.log('created games table.')
+      }
+    }).catch(error => {
+      console.log('games table setup error', error);
+    })
+  }
 
   // Generate a custom key; Credit: https://stackoverflow.com/a/39549510
   const generateKey = (pre) => {
