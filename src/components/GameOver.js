@@ -1,9 +1,33 @@
-import React, { useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { GameContext } from "../contexts/GameContext";
+import axios from 'axios';
 
-const GameOver = () => {
+const GameOver = ({gameUuid, currentUser, isLoggedIn}) => {
   const [gameState, dispatch] = useContext(GameContext);
   const savedAnswers = JSON.parse(localStorage.getItem('Answers')) || [];
+
+  const totalQuestions = parseInt(gameState.questions.length);
+  const totalCorrectAnswers = parseInt(gameState.correctAnswersCount);
+  const totalIncorrectAnswers = parseInt(gameState.questions.length) - parseInt(gameState.correctAnswersCount);
+
+  function saveGameStatsToDatabase() {
+    axios.put(`${process.env.REACT_APP_TRIVIA_SERVER_BASEURL}/games/${gameUuid}`, {
+      totalQuestions,
+      totalCorrectAnswers,
+      totalIncorrectAnswers
+    })
+      .then(response => {
+        if (response.data.status === 'created') {
+          console.log('Successfully saved game stats.')
+        }
+      }).catch(error => {
+        console.log('There was an error saving game stats', error);
+      })
+  }
+
+  useEffect(() => {
+    saveGameStatsToDatabase()
+  },[saveGameStatsToDatabase])
 
   return (
     <>
@@ -64,7 +88,7 @@ const GameOver = () => {
                           </table>
                         </div>
                       )
-                      )}
+                                       )}
 
                       <div className="buttons is-centered">
 
@@ -85,6 +109,7 @@ const GameOver = () => {
       </section>
     </>
   );
-};
+}
+
 
 export default GameOver;
