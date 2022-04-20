@@ -1,15 +1,40 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import axios from 'axios';
 import { Link, useHistory } from 'react-router-dom';
 
-const Dashboard = ({ currentUser, isLoggedIn, handleLogout }) => {
+const Dashboard = ({ isLoggedIn, handleLogout }) => {
   const history = useHistory();
-
+  const currentUser = JSON.parse(localStorage.getItem('currentUser')) || [];
+  const [totalQuestions, setTotalQuestions] = useState(0);
+  const [totalCorrectAnswers, setTotalCorrectAnswers] = useState(0);
+  const [totalIncorrectAnswers, setTotalIncorrectAnswers] = useState(0);
+  
+  
   useEffect(() => {
     if (!isLoggedIn) {
       history.push("/login")
     }
   }, [isLoggedIn, history]);
+
+  async function getGameStats() {
+    try {
+    return axios.get(`${process.env.REACT_APP_TRIVIA_SERVER_BASEURL}/players/${currentUser.uuid}`)
+      .then((response) => {
+        console.log(response)
+        setTotalQuestions(totalQuestions => response.data.game.total_questions)
+        setTotalCorrectAnswers(totalCorrectAnswers => response.data.game.total_correct_answers)
+        setTotalIncorrectAnswers(totalIncorrectAnswers => response.data.game.total_incorrect_answers)
+      })
+    } catch(error) {
+      console.log('error')
+    }
+  }
+  
+  useEffect(() => {
+    if (isLoggedIn) {
+      getGameStats()
+    }
+  }, [])
 
   const handleLogoutClick = () => {
     axios.delete(`${process.env.REACT_APP_AUTHENTICATION_BASEURL}/logout`, { withCredentials: true }).then(response => {
@@ -50,14 +75,12 @@ const Dashboard = ({ currentUser, isLoggedIn, handleLogout }) => {
                   </div>
                 </div>
                 <div className="card-content">
-                  <li>Total Questions</li>
-                  <li>Correct Questions</li>
-                  <li>Incorrect Questions</li>
+                  <li>Total Questions: {totalQuestions ? totalQuestions : 0}</li>
+                  <li>Correct Answers: {totalCorrectAnswers ? totalCorrectAnswers : 0}</li>
+                  <li>Incorrect Answers: {totalIncorrectAnswers ? totalIncorrectAnswers : 0}</li>
                 </div>
               </div>
             </div>
-
-
 
           </div>
         </div>
