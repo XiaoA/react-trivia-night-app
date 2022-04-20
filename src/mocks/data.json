@@ -13,7 +13,7 @@
       "category": "Mythology",
       "type": "multiple",
       "difficulty": "easy",
-      "question": "Who%20in%20Greek%20mythology%2C%20who%20led%20the%20Argonauts%20in%20search%20of%20the%20Golden%20Fleece%3F",
+      "question": "In%20Greek%20mythology%2C%20who%20led%20the%20Argonauts%20in%20search%20of%20the%20Golden%20Fleece%3F",
       "correct_answer": "Jason",
       "incorrect_answers": ["Castor", "Daedalus", "Odysseus"]
     },

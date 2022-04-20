@@ -64,31 +64,40 @@ const GameOver = ({gameUuid, currentUser, isLoggedIn}) => {
                 <div className="card-content">
                   <div className="game-over">
                     <div className="game-stats">
-                      {savedAnswers.map((answer, index) => (
-                        <div className="table table-container is-hoverable is-fullwidth" key={index}>
-                          <table className="display-answers">
-                            <thead>
-                              <tr>
-                                <th>Question Number</th>
-                                <th>Correct Answer</th>
-                                <th>Your Answer</th>
-                                <th>Correct?</th>
-                              </tr>
-                            </thead>
 
-                            <tbody>
+                      <div className="table table-container is-hoverable is-fullwidth" >
+                        <table className="display-answers">
+                          <thead>
+                            <tr>
+                              <th>Question Number</th>
+                              <th>Correct Answer</th>
+                              <th>Your Answer</th>
+                              <th>Correct?</th>
+                            </tr>
+                          </thead>
 
-                              <tr>
+
+                          <tbody>
+
+                            {savedAnswers.map((answer, index) => (                              
+                              <tr key={index}>
+
+                                
                                 <td>{answer[0].questionIndex + 1}</td>
                                 <td>{answer[0].correctAnswer}</td>
                                 <td>{answer[0].playerAnswer}</td>
                                 <td>{answer[0].answerIsCorrect.toString()}</td>
-                              </tr>
-                            </tbody>
-                          </table>
-                        </div>
-                      )
-                                       )}
+                              </tr>                              
+                            )
+                                             )}
+
+
+                          </tbody>
+
+                          
+                        </table>
+                      </div>
+
 
                       <div className="buttons is-centered">
 

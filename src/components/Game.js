@@ -5,7 +5,7 @@ import useInterval from 'use-interval'
 import axios from 'axios';
 function Game({isLoggedIn}) {
   const [gameState, dispatch] = useContext(GameContext);
-  const [questionTimer, setQuestionTimer] = React.useState(2000);
+  const [questionTimer, setQuestionTimer] = React.useState(20000);
   const [gameUuid, setGameUuid] = useState("");
   const currentUser = JSON.parse(localStorage.getItem('currentUser')) || [];
 
