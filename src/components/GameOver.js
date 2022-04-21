@@ -2,13 +2,14 @@ import React, { useState, useContext, useEffect } from "react";
 import { GameContext } from "../contexts/GameContext";
 import axios from 'axios';
 
-const GameOver = ({gameUuid, currentUser, isLoggedIn}) => {
+const GameOver = ({gameUuid, isLoggedIn, currentUser}) => {
   const [gameState, dispatch] = useContext(GameContext);
   const savedAnswers = JSON.parse(localStorage.getItem('Answers')) || [];
 
   const totalQuestions = parseInt(gameState.questions.length);
   const totalCorrectAnswers = parseInt(gameState.correctAnswersCount);
   const totalIncorrectAnswers = parseInt(gameState.questions.length) - parseInt(gameState.correctAnswersCount);
+
 
   function saveGameStatsToDatabase() {
     axios.put(`${process.env.REACT_APP_TRIVIA_SERVER_BASEURL}/games/${gameUuid}`, {
@@ -21,7 +22,7 @@ const GameOver = ({gameUuid, currentUser, isLoggedIn}) => {
           console.log('Successfully saved game stats.')
         }
       }).catch(error => {
-        console.log('There was an error saving game stats', error);
+        console.log('There was an error saving game stats');
       })
   }
 

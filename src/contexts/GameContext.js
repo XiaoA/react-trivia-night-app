@@ -8,7 +8,7 @@ const initialState = {
   answers: [],
   currentAnswer: "",
   correctAnswersCount: 0,
-  playerAnswersLog: []
+  playerAnswersLog: [],
 };
 
 const reducer = (state, action) => {
@@ -84,7 +84,7 @@ const reducer = (state, action) => {
     }
 
     case "PLAY_AGAIN": {
-      localStorage.removeItem('Your Answers');
+      localStorage.removeItem('Answers');
       return initialState;
     }
 
