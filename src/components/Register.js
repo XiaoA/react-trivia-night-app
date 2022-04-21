@@ -12,6 +12,7 @@ const Register = ({ handleLogin, isLoggedIn }) => {
   const [username, setUsername] = useState('');
   const [uuid, setUuid] = useState('');
   const [errorList, setErrorList] = useState([]);
+  const [gameUuid, setGameUuid] = useState('');
 
   let history = useHistory();
 
@@ -58,27 +59,25 @@ const Register = ({ handleLogin, isLoggedIn }) => {
         user: {
           email,
           username,
-          uuid: uuid,
+          uuid,
           password,
           password_confirmation
         }
       },
-                 { withCredentials: true }
-                ).then(response => {
-                  if (response.data.status === 'created') {
-                    handleRegistration(response.data)
-                  }
-                }).catch(error => {
-                  const errorMessage = error.response.data
-                  const errorParser = new DOMParser()
-                  const htmlResponse = errorParser.parseFromString(errorMessage, 'text/html')
-                  const errorText = htmlResponse.getElementsByClassName('message')
-                  const errorInnerText = errorText[0].innerText
-                  const errorList = errorInnerText.split(',')
-                  setErrorList(errorList)
-
-                  console.log('errorList', errorList);
-                })
+                       { withCredentials: true }
+                      ).then(response => {
+                        if (response.data.status === 'created') {
+                          handleRegistration(response.data)
+                        }
+                      }).catch(error => {
+                        const errorMessage = error.response.data
+                        const errorParser = new DOMParser()
+                        const htmlResponse = errorParser.parseFromString(errorMessage, 'text/html')
+                        const errorText = htmlResponse.getElementsByClassName('message')
+                        const errorInnerText = errorText[0].innerText
+                        const errorList = errorInnerText.split(',')
+                        setErrorList(errorList)
+                      })
     }
 
     async function createPlayerTable() {
@@ -87,11 +86,10 @@ const Register = ({ handleLogin, isLoggedIn }) => {
         username: username
       }).then(response => {
         if (response.data.status === 'created') {
-          console.log('response data', response.data)
           console.log('created player account.')
         }
       }).catch(error => {
-        console.log('player account registration error', error);
+        console.log('player account registration error');
       })
     }
 
@@ -110,13 +108,14 @@ const Register = ({ handleLogin, isLoggedIn }) => {
       totalIncorrectAnswers: 0
     }).then(response => {
       if (response.data.status === 'created') {
+        setGameUuid(response.data.uuid)
         console.log('created games table.')
       }
     }).catch(error => {
-      console.log('games table setup error', error);
+      console.log('games table setup error');
     })
   }
-
+ 
   // Generate a custom key; Credit: https://stackoverflow.com/a/39549510
   const generateKey = (pre) => {
     return `${pre}_${new Date().getTime()}`;

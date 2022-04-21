@@ -22,7 +22,6 @@ const Login = ({ handleLogin, history, isLoggedIn }) => {
 
   const handleSuccessfulLogin = (data) => {
     handleLogin(data);
-    console.log('login data', data)
     history.push("/dashboard");
   }
 
@@ -31,7 +30,6 @@ const Login = ({ handleLogin, history, isLoggedIn }) => {
   })
 
   function completeLogin(data) {
-    //  const handleSubmit = (event) => {
     axios.post(`${process.env.REACT_APP_AUTHENTICATION_BASEURL}/sessions`, {
       user: {
         email,
@@ -47,7 +45,7 @@ const Login = ({ handleLogin, history, isLoggedIn }) => {
         handleSuccessfulLogin(response.data)
       } 
     }).catch(error => {
-      console.log('login error', error);
+      console.log('login error');
     })
   }
 
