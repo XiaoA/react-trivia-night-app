@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import './Dashboard.css';
 
-const Dashboard = ({ isLoggedIn, handleLogout }) => {
+const Dashboard = ({ handleLogout }) => {
 
   const currentUser = JSON.parse(localStorage.getItem('currentUser')) || [];
   const [totalQuestions, setTotalQuestions] = useState(0);
