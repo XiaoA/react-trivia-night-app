@@ -26,10 +26,9 @@ const Dashboard = ({ isLoggedIn, handleLogout }) => {
   }
 
   useEffect(() => {
-    
-      getGameStats();
-      localStorage.setItem('gameUuid', JSON.stringify(gameUuid));
-    }, [getGameStats, gameUuid])
+    getGameStats();
+    window.localStorage.setItem('gameUuid', JSON.stringify(gameUuid));
+  }, [getGameStats, gameUuid])
 
   const handleLogoutClick = () => {
     axios.delete(`${process.env.REACT_APP_AUTHENTICATION_BASEURL}/logout`, { withCredentials: true }).then(response => {
