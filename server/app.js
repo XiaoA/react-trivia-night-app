@@ -38,19 +38,37 @@ app.get('/players', async (request, response) => {
   }
 })
 
-// Find a Player
-app.get('/players/:uuid', async (request, response) => {
-  const uuid = request.params.uuid;
+// Find a Player by userUuid
+app.get('/players/:userUuid', async (request, response) => {
+  const userUuid = request.params.userUuid;
 
   try {
     const player = await Player.findOne({
-      where: { uuid },
+      where: { userUuid: userUuid },
       include: 'game'
     })
 
     return response.json(player)
   } catch (error) {
     console.log(error)
+    return response.status(500).json(error)
+  }
+})
+
+//Find Player's Game Stats by userUUid
+app.get('/games/:userUuid', async (request, response) => {
+  const userUuid = request.params.userUuid;
+
+  try {
+    const game = await Game.findOne({
+      where: { userUuid: userUuid },
+      include: 'player'
+    })
+
+    return response.json(game)
+  } catch (error) {
+    console.log(error)
+
     return response.status(500).json(error)
   }
 })
@@ -98,9 +116,9 @@ app.put('/games/:uuid', async (request, response) => {
     const game = await Game.findOne({ where: { uuid } })
 
     game.total_questions = game.total_questions + totalQuestions,
-      game.total_correct_answers = game.total_correct_answers + totalCorrectAnswers,
-      game.total_incorrect_answers = game.total_incorrect_answers + totalIncorrectAnswers
-
+    game.total_correct_answers = game.total_correct_answers + totalCorrectAnswers,
+    game.total_incorrect_answers = game.total_incorrect_answers + totalIncorrectAnswers
+    
     await game.save()
 
     return response.json(game)
