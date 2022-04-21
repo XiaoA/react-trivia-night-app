@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import './Dashboard.css';
 
 const Dashboard = ({ isLoggedIn, handleLogout }) => {
-  const history = useHistory();
+
   const currentUser = JSON.parse(localStorage.getItem('currentUser')) || [];
   const [totalQuestions, setTotalQuestions] = useState(0);
   const [totalCorrectAnswers, setTotalCorrectAnswers] = useState(0);
   const [totalIncorrectAnswers, setTotalIncorrectAnswers] = useState(0);
   const [gameUuid, setGameUuid] = useState()
+
 
   async function getGameStats() {
     try {
@@ -20,7 +21,7 @@ const Dashboard = ({ isLoggedIn, handleLogout }) => {
           setTotalIncorrectAnswers(totalIncorrectAnswers => response.data.game.total_incorrect_answers)
           setGameUuid(gameUuid => response.data.game.uuid);
         })
-    } catch(error) {
+    } catch (error) {
       console.log('error')
     }
   }
@@ -28,7 +29,7 @@ const Dashboard = ({ isLoggedIn, handleLogout }) => {
   useEffect(() => {
     getGameStats();
     window.localStorage.setItem('gameUuid', JSON.stringify(gameUuid));
-  }, [getGameStats, gameUuid])
+  }, [getGameStats, gameUuid, currentUser])
 
   const handleLogoutClick = () => {
     axios.delete(`${process.env.REACT_APP_AUTHENTICATION_BASEURL}/logout`, { withCredentials: true }).then(response => {
@@ -50,7 +51,7 @@ const Dashboard = ({ isLoggedIn, handleLogout }) => {
                 <div className="card-header">
                   <div className="card-header-title is-centered">
                     {currentUser &&
-                     <p>{currentUser.username}</p>
+                      <p>{currentUser.username}</p>
                     }
                   </div>
                 </div>
