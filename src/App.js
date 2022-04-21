@@ -15,6 +15,7 @@ const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState({});
 
+
   const checkLoginStatus = () => {
     axios.get(`${process.env.REACT_APP_AUTHENTICATION_BASEURL}/logged_in`, { withCredentials: true })
       .then(response => {
@@ -25,7 +26,7 @@ const App = () => {
         }
       })
       .catch(error => {
-        console.log("check login error", error)
+        console.log("login error")
       });
   }
 
@@ -36,11 +37,13 @@ const App = () => {
   const handleLogout = () => {
     setIsLoggedIn(false)
     setCurrentUser({})
+    window.localStorage.removeItem('currentUser');
   }
 
   const handleLogin = (data) => {
     setIsLoggedIn(true)
     setCurrentUser({ ...data })
+    window.localStorage.setItem('currentUser', JSON.stringify(data));
   }
 
   return (
@@ -88,7 +91,14 @@ const App = () => {
             )}
           />
 
-          <Route path="/game" component={Game} />
+          <Route path={"/game"} render={props => (
+            <Game {...props}
+              isLoggedIn={isLoggedIn}
+              currentUser={currentUser}
+            />
+          )}
+          />
+
 
           <Route path="/game-options" component={ChooseGameOptions} />
 
