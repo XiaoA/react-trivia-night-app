@@ -1,8 +1,8 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, useCallback } from "react";
 import { GameContext } from "../contexts/GameContext";
 import axios from 'axios';
 
-const GameOver = ({gameUuid, isLoggedIn, currentUser}) => {
+const GameOver = ({ gameUuid, isLoggedIn, currentUser }) => {
   const [gameState, dispatch] = useContext(GameContext);
   const savedAnswers = JSON.parse(localStorage.getItem('Answers')) || [];
 
@@ -11,7 +11,7 @@ const GameOver = ({gameUuid, isLoggedIn, currentUser}) => {
   const totalIncorrectAnswers = parseInt(gameState.questions.length) - parseInt(gameState.correctAnswersCount);
 
 
-  function saveGameStatsToDatabase() {
+  const saveGameStatsToDatabase = useCallback(() => {
     axios.put(`${process.env.REACT_APP_TRIVIA_SERVER_BASEURL}/games/${gameUuid}`, {
       totalQuestions,
       totalCorrectAnswers,
@@ -24,11 +24,11 @@ const GameOver = ({gameUuid, isLoggedIn, currentUser}) => {
       }).catch(error => {
         console.log('There was an error saving game stats');
       })
-  }
+  }, [gameUuid, totalQuestions, totalCorrectAnswers, totalIncorrectAnswers])
 
   useEffect(() => {
     saveGameStatsToDatabase()
-  },[saveGameStatsToDatabase])
+  }, [saveGameStatsToDatabase])
 
   return (
     <>
@@ -80,22 +80,22 @@ const GameOver = ({gameUuid, isLoggedIn, currentUser}) => {
 
                           <tbody>
 
-                            {savedAnswers.map((answer, index) => (                              
+                            {savedAnswers.map((answer, index) => (
                               <tr key={index}>
 
-                                
+
                                 <td>{answer[0].questionIndex + 1}</td>
                                 <td>{answer[0].correctAnswer}</td>
                                 <td>{answer[0].playerAnswer}</td>
                                 <td>{answer[0].answerIsCorrect.toString()}</td>
-                              </tr>                              
+                              </tr>
                             )
-                                             )}
+                            )}
 
 
                           </tbody>
 
-                          
+
                         </table>
                       </div>
 

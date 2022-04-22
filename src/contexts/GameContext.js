@@ -1,4 +1,4 @@
-import React, { createContext, useReducer, useEffect } from "react";
+import React, { createContext, useReducer } from "react";
 import { mergeAnswerLists, decodeApiText } from "../helpers";
 
 const initialState = {
@@ -37,7 +37,6 @@ const reducer = (state, action) => {
       return {
         ...state,
         currentAnswer: action.payload,
-        currentAnswer,
         correctAnswersCount,
       };
     }

@@ -1,7 +1,6 @@
 import React from 'react';
 
-const Home = ({ isLoggedIn }) => {
-
+const Home = () => {
   return (
     <section className="hero is-info is-fullheight">
       <div className="hero-body">
@@ -13,7 +12,6 @@ const Home = ({ isLoggedIn }) => {
             <h2 className="subtitle">
               Test your knowledge alone or with friends!
             </h2>
-
           </div>
         </div>
       </div>

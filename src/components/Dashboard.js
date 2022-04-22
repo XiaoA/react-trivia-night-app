@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import './Dashboard.css';
@@ -11,8 +11,7 @@ const Dashboard = ({ handleLogout }) => {
   const [totalIncorrectAnswers, setTotalIncorrectAnswers] = useState(0);
   const [gameUuid, setGameUuid] = useState()
 
-
-  async function getGameStats() {
+  const getGameStats = useCallback(async () => {
     try {
       await axios.get(`${process.env.REACT_APP_TRIVIA_SERVER_BASEURL}/players/${currentUser.uuid}`)
         .then((response) => {
@@ -24,11 +23,13 @@ const Dashboard = ({ handleLogout }) => {
     } catch (error) {
       console.log('error')
     }
-  }
+  }, [currentUser.uuid])
 
   useEffect(() => {
     getGameStats();
+
     window.localStorage.setItem('gameUuid', JSON.stringify(gameUuid));
+
   }, [getGameStats, gameUuid, currentUser])
 
   const handleLogoutClick = () => {

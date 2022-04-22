@@ -1,8 +1,8 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import { GameContext } from "../contexts/GameContext";
 import GameCard from "./GameCard";
 import useInterval from 'use-interval'
-import axios from 'axios';
+
 function Game({isLoggedIn}) {
   const [gameState, dispatch] = useContext(GameContext);
   const [questionTimer, setQuestionTimer] = React.useState(20000);
