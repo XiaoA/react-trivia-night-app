@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { BrowserRouter, Route, Switch, Redirect, useLocation } from "react-router-dom";
+import React, { useState, useEffect, useCallback } from "react";
+import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import "./App.css";
 import Game from "./components/Game";
 import Register from "./components/Register";
@@ -7,7 +7,7 @@ import Login from "./components/Login";
 import Home from "./components/Home";
 import NavBar from './components/NavBar';
 import Dashboard from "./components/Dashboard";
-import ChooseGameOptions from './components/ChooseGameOptions';
+import Welcome from './components/Welcome';
 
 import axios from 'axios';
 
@@ -15,38 +15,38 @@ const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState({});
 
-  const checkLoginStatus = () => {
+  const checkLoginStatus = useCallback(() => {
     axios.get(`${process.env.REACT_APP_AUTHENTICATION_BASEURL}/logged_in`, { withCredentials: true })
       .then(response => {
         if (response.data.logged_in && isLoggedIn === false) {
           setIsLoggedIn(true);
-          setCurrentUser(response.data.user)
         } else if (!response.data.logged_in && isLoggedIn === true) {
-          isLoggedIn(false);
-          setCurrentUser({})
+          handleLogout()
         }
-      }
-      )
+      })
       .catch(error => {
-        console.log("check login error", error)
+        console.log("login error")
       });
-  }
+  }, [isLoggedIn])    
+
 
   useEffect(() => {
     checkLoginStatus()
-  })
+  }, [checkLoginStatus])
 
   const handleLogout = () => {
     setIsLoggedIn(false)
     setCurrentUser({})
+    window.localStorage.removeItem('currentUser');
+    window.localStorage.removeItem('gameUuid');
+    window.localStorage.removeItem('Answers');
   }
 
   const handleLogin = (data) => {
     setIsLoggedIn(true)
-    setCurrentUser(data.user);
+    setCurrentUser({ ...data })
+    window.localStorage.setItem('currentUser', JSON.stringify(data));
   }
-
-  console.log(currentUser);
 
   return (
     <div className="App">
@@ -67,6 +67,15 @@ const App = () => {
 
           <Route path={"/dashboard"} render={props => (
             <Dashboard {...props} handleLogout={handleLogout}
+              isLoggedIn={isLoggedIn}
+            currentUser={currentUser}
+            forceRefresh={true}
+            />
+          )}
+          />
+
+          <Route path={"/welcome"} render={props => (
+            <Welcome {...props} handleLogout={handleLogout}
               isLoggedIn={isLoggedIn}
               currentUser={currentUser}
             />
@@ -93,10 +102,14 @@ const App = () => {
             )}
           />
 
+          <Route path={"/game"} render={props => (
+            <Game {...props}
+              isLoggedIn={isLoggedIn}
+              currentUser={currentUser}
+            />
+          )}
+          />
 
-          <Route path="/game" component={Game} />
-          <Route path="/game-options" component={ChooseGameOptions} />
-      
           <Redirect to="/" />
 
         </Switch>

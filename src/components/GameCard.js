@@ -4,13 +4,17 @@ import { GameContext } from "../contexts/GameContext";
 import ProgressBar from "./ProgressBar";
 import GameOver from "./GameOver";
 
-function GameCard() {
+function GameCard({ currentUser, isLoggedIn, gameUuid }) {
   const [gameState, dispatch] = useContext(GameContext);
   return (
     <>
       {gameState.showResults && (
         <div className="game-over">
-          <GameOver />
+          <GameOver
+            currentUser={currentUser}
+            gameUuid={gameUuid}
+            isLoggedIn={isLoggedIn}
+          />
         </div>
       )}
 

@@ -1,21 +1,42 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState, useCallback } from "react";
+import { Link } from 'react-router-dom';
 import axios from 'axios';
-import { Link, useHistory } from 'react-router-dom';
+import './Dashboard.css';
 
-const Dashboard = ({ currentUser, isLoggedIn, handleLogout }) => {
-  const history = useHistory();
+const Dashboard = ({ handleLogout }) => {
+
+  const currentUser = JSON.parse(localStorage.getItem('currentUser')) || [];
+  const [totalQuestions, setTotalQuestions] = useState(0);
+  const [totalCorrectAnswers, setTotalCorrectAnswers] = useState(0);
+  const [totalIncorrectAnswers, setTotalIncorrectAnswers] = useState(0);
+  const [gameUuid, setGameUuid] = useState()
+
+  const getGameStats = useCallback(async () => {
+    try {
+      await axios.get(`${process.env.REACT_APP_TRIVIA_SERVER_BASEURL}/players/${currentUser.uuid}`)
+        .then((response) => {
+          setTotalQuestions(totalQuestions => response.data.game.total_questions)
+          setTotalCorrectAnswers(totalCorrectAnswers => response.data.game.total_correct_answers)
+          setTotalIncorrectAnswers(totalIncorrectAnswers => response.data.game.total_incorrect_answers)
+          setGameUuid(gameUuid => response.data.game.uuid);
+        })
+    } catch (error) {
+      console.log('error')
+    }
+  }, [currentUser.uuid])
 
   useEffect(() => {
-    if (!isLoggedIn) {
-      history.push("/login")
-    }
-  }, [isLoggedIn, history]);
+    getGameStats();
+
+    window.localStorage.setItem('gameUuid', JSON.stringify(gameUuid));
+
+  }, [getGameStats, gameUuid, currentUser])
 
   const handleLogoutClick = () => {
     axios.delete(`${process.env.REACT_APP_AUTHENTICATION_BASEURL}/logout`, { withCredentials: true }).then(response => {
       handleLogout();
     }).catch(error => {
-      console.error("logout error", error);
+      console.error("logout error");
     })
   }
 
@@ -49,15 +70,13 @@ const Dashboard = ({ currentUser, isLoggedIn, handleLogout }) => {
                     My Stats
                   </div>
                 </div>
-                <div className="card-content">
-                  <li>Total Questions</li>
-                  <li>Correct Questions</li>
-                  <li>Incorrect Questions</li>
+                <div className="card-content my-stats">
+                  <li>Total Questions: {totalQuestions ? totalQuestions : 0}</li>
+                  <li>Correct Answers: {totalCorrectAnswers ? totalCorrectAnswers : 0}</li>
+                  <li>Incorrect Answers: {totalIncorrectAnswers ? totalIncorrectAnswers : 0}</li>
                 </div>
               </div>
             </div>
-
-
 
           </div>
         </div>

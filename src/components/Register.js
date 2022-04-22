@@ -1,80 +1,134 @@
-import React, { useState, useEffect } from "react";
-import { Link, useHistory, useLocation } from "react-router-dom";
+import React, { useState, useEffect, useCallback } from 'react';
+import { Link, useHistory } from "react-router-dom";
 import "./Register.css";
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
+import { v4 as uuidv4 } from 'uuid';
 
 const Register = ({ handleLogin, isLoggedIn }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [password_confirmation, setPasswordConfirmation] = useState('');
   const [username, setUsername] = useState('');
+  const [uuid, setUuid] = useState('');
   const [errorList, setErrorList] = useState([]);
+
   let history = useHistory();
+  
+  const handleRegistration = useCallback((data) => {
+    handleLogin(data);
+    history.push('/welcome')
+  }, [handleLogin, history])
+
+    const createGamesTable = useCallback(() => {
+    axios.post(`${process.env.REACT_APP_TRIVIA_SERVER_BASEURL}/games`, {
+      userUuid: uuid,
+      totalQuestions: 0,
+      totalCorrectAnswers: 0,
+      totalIncorrectAnswers: 0
+    }).then(response => {
+      if (response.data.status === 'created') {
+        console.log('created games table.')
+      }
+    }).catch(error => {
+      console.log('games table setup error');
+    })
+  }, [uuid])
+  
+    const completeRegistration = useCallback((data) => {
+        async function createNewAccount() {
+          await axios.post(`${process.env.REACT_APP_AUTHENTICATION_BASEURL}/registrations`, {
+            user: {
+              email,
+              username,
+              uuid,
+              password,
+              password_confirmation
+            }
+          },
+            { withCredentials: true }
+          ).then(response => {
+            if (response.data.status === 'created') {
+              handleRegistration(response.data)
+            }
+          }).catch(error => {
+            const errorMessage = error.response.data
+            const errorParser = new DOMParser()
+            const htmlResponse = errorParser.parseFromString(errorMessage, 'text/html')
+            const errorText = htmlResponse.getElementsByClassName('message')
+            const errorInnerText = errorText[0].innerText
+            const errorList = errorInnerText.split(',')
+            setErrorList(errorList)
+          })
+        }
+
+        async function createPlayerTable() {
+          await axios.post(`${process.env.REACT_APP_TRIVIA_SERVER_BASEURL}/players`, {
+            userUuid: uuid,
+            username: username
+          }).then(response => {
+            if (response.data.status === 'created') {
+              console.log('created player account.')
+            }
+          }).catch(error => {
+            console.log('player account registration error');
+          })
+        }
+
+        Promise.all([createNewAccount(), createPlayerTable()])
+          .then((response) => {
+            createGamesTable();
+          });
+  }, [createGamesTable, email, handleRegistration, password, password_confirmation, username, uuid])
+    
 
   //  Redirect Authenticated users from Register form
   useEffect(() => {
     if (isLoggedIn) {
       history.push("/dashboard")
     }
+
+    return () => {
+      console.log('return from history push')
+    }
   }, [isLoggedIn, history]);
+
+  useEffect(() => {
+    setUuid(uuidv4())
+  }, [])
 
 
   // On submit
-  const onSubmit = (data, event) => {
+  const onSubmit = useCallback(() => {
+    completeRegistration()
+  }, [completeRegistration])
+
+
+  useEffect(() => {
     console.log('Logging you in...');
-  }
+  }, [onSubmit])
 
   // Initialize React Hook Form
-  const { register, handleSubmit, errors, formState = { errors } } = useForm({
+  const { register, handleSubmit, errors = { errors } } = useForm({
     mode: "onBlur"
   })
 
-  const handleRegistration = (data) => {
-    handleLogin(data);
-    history.push("/dashboard")
-  }
 
-  function completeRegistration(data) {
-    function createNewAccount() {
-      axios.post(`${process.env.REACT_APP_AUTHENTICATION_BASEURL}/registrations`, {
-        user: {
-          email,
-          username,
-          password,
-          password_confirmation
-        }
-      },
-        { withCredentials: true }
-      ).then(response => {
-        if (response.data.status === 'created') {
-          handleRegistration(response.data)
-        }
-      }).catch(error => {
-        const errorMessage = error.response.data
-        const errorParser = new DOMParser()
-        const htmlResponse = errorParser.parseFromString(errorMessage, 'text/html')
-        const errorText = htmlResponse.getElementsByClassName('message')
-        const errorInnerText = errorText[0].innerText
-        const errorList = errorInnerText.split(',')
-        setErrorList(errorList)
 
-        console.log('errorList', errorList);
-      })
-    }
 
-    Promise.all([createNewAccount()])
-      .then((response) => {
-      });
-  }
 
+
+
+
+
+
+  // Generate a custom key; Credit: https://stackoverflow.com/a/39549510
   const generateKey = (pre) => {
-    return `${ pre }_${ new Date().getTime() }`;
+    return `${pre}_${new Date().getTime()}`;
   }
-  
+
   return (
     <>
-
       <section className="block step-1-form hero is-dark is-fullheight">
         <div className="hero-body">
           <div className="container has-text-centered">
@@ -94,10 +148,10 @@ const Register = ({ handleLogin, isLoggedIn }) => {
               </p>
 
               <div className="box">
-      {errorList ? <h2 className="has-text-danger error-list">{errorList.map((error, key) => {
-        return(
-          <li key={generateKey(error)}>{error}</li>)
-      })}</h2> : null}
+                {errorList ? <h2 className="has-text-danger error-list">{errorList.map((error, key) => {
+                  return (
+                    <li key={generateKey(error)}>{error}</li>)
+                })}</h2> : null}
                 <form onSubmit={handleSubmit(onSubmit)}>
                   <div className="field">
 
@@ -194,7 +248,7 @@ const Register = ({ handleLogin, isLoggedIn }) => {
                       )}
                     </div>
                   </div>
-                  <button onClick={completeRegistration}
+                  <button
                     type="submit"
                     className="button is-block is-info is-large is-fullwidth"
                   >

@@ -10,6 +10,7 @@
     "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^0.24.0",
+    "dotenv": "^16.0.0",
     "msw": "^0.36.3",
     "react": "^17.0.2",
     "react-countdown-circle-timer": "^3.0.8",
@@ -18,6 +19,7 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "^3.0.1",
     "use-interval": "^1.4.0",
+    "uuid": "^8.3.2",
     "web-vitals": "^2.1.2"
   },
   "scripts": {

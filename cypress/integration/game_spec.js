@@ -52,7 +52,7 @@ describe('Trivia Game', () => {
     user.wait(20000)
 
     // Question 2
-    user.contains('Who in Greek mythology, who led the Argonauts in search of the Golden Fleece?')
+    user.contains('In Greek mythology, who led the Argonauts in search of the Golden Fleece?')
     user.contains('Jason')
     user.contains('Castor')
     user.contains('Daedalus')
@@ -114,7 +114,7 @@ describe('Trivia Game', () => {
     user.wait(20000)
 
     // Question 2
-    user.contains('Who in Greek mythology, who led the Argonauts in search of the Golden Fleece?')
+    user.contains('In Greek mythology, who led the Argonauts in search of the Golden Fleece?')
     user.contains('Jason').click()
     user.contains('Castor')
     user.contains('Daedalus')
@@ -149,145 +149,98 @@ describe('Trivia Game', () => {
 
     // Game Over - Show Stats
 
-    cy.get(':nth-child(1) > .content > .columns > .column > .card > h2')
+    user.get(':nth-child(1) > .content > .columns > .column > .card > h2')
       .should('have.text', 'Game Over!')
 
-    cy.get('.game-stats > div > h3')
+    user.get('.game-stats > div > h3')
       .should('have.text', 'You got 3 of 5 correct.')
 
-    cy.get(':nth-child(2) > .content > .columns > .column > .card > h2')
+    user.get(':nth-child(2) > .content > .columns > .column > .card > h2')
       .should('have.text', 'Your Answers')
 
 
-    // Display 'Question Number' Column 1
+    // Display Table Header Row
 
-    cy.get(':nth-child(1) > .display-answers > thead > tr > :nth-child(1)')
+
+    user.get('thead > tr > :nth-child(1)')
       .should('have.text', 'Question Number')
 
-    cy.get(':nth-child(1) > .display-answers > tbody > tr > :nth-child(1)')
+    user.get('thead > tr > :nth-child(2)')
+      .should('have.text', 'Correct Answer')
+
+
+    user.get('thead > tr > :nth-child(3)')
+      .should('have.text', 'Your Answer')
+
+    user.get('thead > tr > :nth-child(4)')
+      .should('have.text', 'Correct?')
+
+
+    // Display Question 1 Row
+    user.get('tbody > :nth-child(1) > :nth-child(1)')
       .should('have.text', '1')
 
-    cy.get(':nth-child(2) > .display-answers > thead > tr > :nth-child(1)')
-      .should('have.text', 'Question Number')
+    user.get('tbody > :nth-child(1) > :nth-child(2)')
+      .should('have.text', 'True')
 
-    cy.get(':nth-child(2) > .display-answers > tbody > tr > :nth-child(1)')
+    user.get('tbody > :nth-child(1) > :nth-child(3)')
+      .should('have.text', 'True')
+
+    user.get('tbody > :nth-child(1) > :nth-child(4)')
+      .should('have.text', 'true')
+
+    // Display Question 2 Row
+    user.get('tbody > :nth-child(2) > :nth-child(1)')
       .should('have.text', '2')
 
-    cy.get(':nth-child(3) > .display-answers > thead > tr > :nth-child(1)')
-      .should('have.text', 'Question Number')
+    user.get('tbody > :nth-child(2) > :nth-child(2)')
+      .should('have.text', 'Jason')
 
-    cy.get(':nth-child(3) > .display-answers > tbody > tr > :nth-child(1)')
+    user.get('tbody > :nth-child(2) > :nth-child(3)')
+      .should('have.text', 'Jason')
+
+    user.get('tbody > :nth-child(2) > :nth-child(4)')
+      .should('have.text', 'true')
+
+    // Display Question 3 Row
+    user.get('tbody > :nth-child(3) > :nth-child(1)')
       .should('have.text', '3')
 
-    cy.get(':nth-child(4) > .display-answers > thead > tr > :nth-child(1)')
-      .should('have.text', 'Question Number')
+    user.get('tbody > :nth-child(3) > :nth-child(2)')
+      .should('have.text', 'False')
 
-    cy.get(':nth-child(4) > .display-answers > tbody > tr > :nth-child(1)')
+    user.get('tbody > :nth-child(3) > :nth-child(3)')
+      .should('have.text', 'False')
+
+    user.get('tbody > :nth-child(3) > :nth-child(4)')
+      .should('have.text', 'true')
+
+    // Display Question 4 Row
+    user.get('tbody > :nth-child(4) > :nth-child(1)')
       .should('have.text', '4')
 
-    cy.get(':nth-child(5) > .display-answers > thead > tr > :nth-child(1)')
-      .should('have.text', 'Question Number')
-
-    cy.get(':nth-child(5) > .display-answers > tbody > tr > :nth-child(1)')
-      .should('have.text', '5')
-
-
-    // Display 'Question Number' Column 2
-
-    cy.get(':nth-child(1) > .display-answers > thead > tr > :nth-child(2)')
-      .should('have.text', 'Correct Answer')
-
-    cy.get(':nth-child(1) > .display-answers > tbody > tr > :nth-child(2)')
-      .should('have.text', 'True')
-
-    cy.get(':nth-child(2) > .display-answers > thead > tr > :nth-child(2)')
-      .should('have.text', 'Correct Answer')
-
-    cy.get(':nth-child(2) > .display-answers > tbody > tr > :nth-child(2)')
-      .should('have.text', 'Jason')
-
-    cy.get(':nth-child(3) > .display-answers > thead > tr > :nth-child(2)')
-      .should('have.text', 'Correct Answer')
-
-    cy.get(':nth-child(3) > .display-answers > tbody > tr > :nth-child(2)')
-      .should('have.text', 'False')
-
-    cy.get(':nth-child(4) > .display-answers > thead > tr > :nth-child(2)')
-      .should('have.text', 'Correct Answer')
-
-    cy.get(':nth-child(4) > .display-answers > tbody > tr > :nth-child(2)')
+    user.get('tbody > :nth-child(4) > :nth-child(2)')
       .should('have.text', 'Paris')
 
-    cy.get(':nth-child(5) > .display-answers > thead > tr > :nth-child(2)')
-      .should('have.text', 'Correct Answer')
-
-    cy.get(':nth-child(5) > .display-answers > tbody > tr > :nth-child(2)')
-      .should('have.text', 'Norse')
-
-    // Display 'Your Answer' Column 3
-
-    cy.get(':nth-child(1) > .display-answers > thead > tr > :nth-child(3)')
-      .should('have.text', 'Your Answer')
-
-    cy.get(':nth-child(1) > .display-answers > tbody > tr > :nth-child(3)')
-      .should('have.text', 'True')
-
-    cy.get(':nth-child(2) > .display-answers > thead > tr > :nth-child(3)')
-      .should('have.text', 'Your Answer')
-
-    cy.get(':nth-child(2) > .display-answers > tbody > tr > :nth-child(3)')
-      .should('have.text', 'Jason')
-
-    cy.get(':nth-child(3) > .display-answers > thead > tr > :nth-child(3)')
-      .should('have.text', 'Your Answer')
-
-    cy.get(':nth-child(3) > .display-answers > tbody > tr > :nth-child(3)')
-      .should('have.text', 'False')
-
-    cy.get(':nth-child(4) > .display-answers > thead > tr > :nth-child(3)')
-      .should('have.text', 'Your Answer')
-
-    cy.get(':nth-child(4) > .display-answers > tbody > tr > :nth-child(3)')
+    user.get('tbody > :nth-child(4) > :nth-child(3)')
       .should('have.text', 'skipped')
 
-    cy.get(':nth-child(5) > .display-answers > thead > tr > :nth-child(3)')
-      .should('have.text', 'Your Answer')
+    user.get('tbody > :nth-child(4) > :nth-child(4)')
+      .should('have.text', 'false')
 
-    cy.get(':nth-child(5) > .display-answers > tbody > tr > :nth-child(3)')
+
+    // Display Question 5 Row
+    user.get('tbody > :nth-child(5) > :nth-child(1)')
+      .should('have.text', '5')
+
+    user.get('tbody > :nth-child(5) > :nth-child(2)')
+      .should('have.text', 'Norse')
+
+    user.get('tbody > :nth-child(5) > :nth-child(3)')
       .should('have.text', 'Egyptian')
 
-    // Display 'Correct?' Column 4
-
-    cy.get(':nth-child(1) > .display-answers > thead > tr > :nth-child(4)')
-      .should('have.text', 'Correct?')
-
-    cy.get(':nth-child(1) > .display-answers > tbody > tr > :nth-child(4)')
-      .should('have.text', 'true')
-
-    cy.get(':nth-child(2) > .display-answers > thead > tr > :nth-child(4)')
-      .should('have.text', 'Correct?')
-
-    cy.get(':nth-child(2) > .display-answers > tbody > tr > :nth-child(4)')
-      .should('have.text', 'true')
-
-    cy.get(':nth-child(3) > .display-answers > thead > tr > :nth-child(4)')
-      .should('have.text', 'Correct?')
-
-    cy.get(':nth-child(3) > .display-answers > tbody > tr > :nth-child(4)')
-      .should('have.text', 'true')
-
-    cy.get(':nth-child(4) > .display-answers > thead > tr > :nth-child(4)')
-      .should('have.text', 'Correct?')
-
-    cy.get(':nth-child(4) > .display-answers > tbody > tr > :nth-child(4)')
+    user.get('tbody > :nth-child(5) > :nth-child(4)')
       .should('have.text', 'false')
-
-    cy.get(':nth-child(5) > .display-answers > thead > tr > :nth-child(4)')
-      .should('have.text', 'Correct?')
-
-    cy.get(':nth-child(4) > .display-answers > tbody > tr > :nth-child(4)')
-      .should('have.text', 'false')
-
   })
 })
 
