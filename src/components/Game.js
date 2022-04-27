@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { GameContext } from "../contexts/GameContext";
 import GameCard from "./GameCard";
 import useInterval from 'use-interval'
@@ -9,19 +9,20 @@ function Game({isLoggedIn}) {
   const currentUser = JSON.parse(localStorage.getItem('currentUser')) || [];
   const gameUuid = JSON.parse(localStorage.getItem('gameUuid')) || [];
 
-  const triviaApiEndpoint =
-        "https://opentdb.com/api.php?amount=5&encode=url3986";
+  const customGameUrl = JSON.parse(localStorage.getItem('customGameUrl')) || [];
+  const [triviaApiEndpoint, setTriviaApiEndpoint] = useState("https://opentdb.com/api.php?amount=5&encode=url3986")
 
   useEffect(() => {
-    if (gameState.questions.length > 0) {
-      return;
+    if (customGameUrl.length > 0) {
+      setTriviaApiEndpoint(customGameUrl)
     }
+    
     fetch(triviaApiEndpoint)
       .then((response) => response.json())
       .then((data) => {
         dispatch({ type: "OPEN_TRIVIA_API_QUESTIONS", payload: data.results });
       });
-  }, [dispatch, gameState.questions.length]);
+  }, [customGameUrl, triviaApiEndpoint, dispatch, gameState.questions.length]);
 
 
   useInterval(() => {

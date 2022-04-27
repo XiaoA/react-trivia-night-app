@@ -10,7 +10,6 @@ const GameOver = ({ gameUuid, isLoggedIn, currentUser }) => {
   const totalCorrectAnswers = parseInt(gameState.correctAnswersCount);
   const totalIncorrectAnswers = parseInt(gameState.questions.length) - parseInt(gameState.correctAnswersCount);
 
-
   const saveGameStatsToDatabase = useCallback(() => {
     axios.put(`${process.env.REACT_APP_TRIVIA_SERVER_BASEURL}/games/${gameUuid}`, {
       totalQuestions,
