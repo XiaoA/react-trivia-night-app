@@ -1,70 +1,99 @@
-# Getting Started with Create React App
+# React Trivia Night App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+The app is live at: [React Trivia Night App](https://aeb-react-trivia-app.netlify.app/ "React Trivia Night App")
 
-## Available Scripts
+## Motivation
+My friends and I love to play trivia, but even before the pandemic, we found it hard to arrange our schedules to play in person. This game makes it easy for anyone to play trivia online, alone or with friends.
 
-In the project directory, you can run:
+## Current Features
 
-### `npm start`
+### Non-Member Features
+- Users can play an unlimited number of free trivia games, from a database of over 14,500 queations.
+- Each game consists of five randomly-chosen questions, with 20 seonds per question.
+- Users receive immediate feedback to let them know if their answer was correct. At the end of the game, a table will appear with details of each question, the correct answers, and how their answers compared.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+The game is completely free to play. Membership is optional, but does provide additional features.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Member features
+**All non-member features, plus:**
 
-### `npm test`
+- **Free membership:** Users can join for free and create their own unique username.
+- **Track your performance:** Users can view their lifetime stats, including total questions answered, total correct, and total incorrect, on a personal dashboard page.
+- **Custom games:** users can choose from a large number of categories, with different levels of difficulty, and a range of 1-50 questions per game.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Planned Upcoming Features
+- **Multiplayer games:** users can play against each other in the same game rooms
+- **Game Leaderboards:** users can compare their stats to others players
+- **Plan Games:** users can schedule future matches with other users
 
-### `npm run build`
+## User Flows
+- **Home Page**
+  - Quick Game: Users can play unlimited 5-question games without joining, but they must join to save their game stats (membership is free).
+  - Register: New users can join for free.
+  - Sign In: Returning users can log in.
+- **User Dashboard**
+  -  After authentication, users will be taken to a dashboard page, where they will have the option to play a game, or view their stats. 
+    - Start a quick game, with five randomly-chosen questions, or create custom games
+    - View Stats
+      - Users can view their stats:
+        - Total questions answered
+        - Total number of correct answers
+        - Total number of incorrect answers
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## External APIs and Libraries
+- **Open Trivia DB:** https://opentdb.com - A free, user-contributed database of trivia questions, with over 14,500 questions.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- [Rails Authentication App](https://github.com/XiaoA/rails-authentication-app): A simple authentication system for this game, backed by Rails and PostgreSQL. This could also be replaced with another authentication system. Stores emails, passwords, and a username for members; only the username and a UUID number are shared with the application.
+- [Node Player Stats App](https://github.com/XiaoA/react-trivia-node-player-stats-server): A dedicated Node.js server and PostgreSQL database, decoupled from the autnetication system. Stores player stats.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Architecture
+![React Trivia Night App Achitecture](react-trivia-night-app-architecture.png "React Trivia Night App Architecture")
+## Core Technology Stack
+### **Front End:** 
+- React.js
 
-### `npm run eject`
+### **Back End:** 
+- Authentication:
+  - Ruby on Rails, PostgreSQL
+- Player's Game Stats:
+  - Express.js, PostgreSQL
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Testing Strategies
+### Unit Testing
+- Reacting Testing Library
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Integration/End-to-End
+- Cypress
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### Mocking
+- Mock Service Worker
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## Installation
+This app was built as a microservice, with three components. To run this app locally, you'll need to make sure that you have the following installed on your system:
 
-## Learn More
+1. Node 16.13.1
+2. Ruby 3.1.0
+3. Rails 7.0.2.2
+4. PostgreSQL 13
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Client React App
+1. Clone this repo.
+2. `npm install` or `yarn add`
+3. `npm start` or `yarn`
+4. By default, this app will run on http://localhost:3000.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Rails Authentication App
+1. Go to https://github.com/XiaoA/rails-authentication-app 
+2. Clone the repo.
+3. Ensure that you have the correct version of Ruby installed (3.0.2).
+4. `bundle install`
+5. By default, this app will run on http://localhost:3001.
 
-### Code Splitting
+### Node Player Stats App
+1. Go to https://github.com/XiaoA/react-trivia-node-player-stats-server
+2. Ensure that you have the correct version of Node installed
+3. `npm install` or `yarn`
+4. By default, this app will run on http://localhost:5000
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
 
-### Analyzing the Bundle Size
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
