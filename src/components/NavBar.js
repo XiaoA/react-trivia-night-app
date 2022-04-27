@@ -31,6 +31,10 @@ const NavBar = ({ isLoggedIn, handleLogout }) => {
 
       {isLoggedIn && (
         <>
+          <NavLink className="navbar-item" exact to="./game-options">
+            Custom Game
+          </NavLink>
+
           <NavLink className="navbar-item" exact to="./dashboard">
             Dashboard
           </NavLink>

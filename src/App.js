@@ -8,6 +8,7 @@ import Home from "./components/Home";
 import NavBar from './components/NavBar';
 import Dashboard from "./components/Dashboard";
 import Welcome from './components/Welcome';
+import ChooseGameOptions from './components/ChooseGameOptions';
 
 import axios from 'axios';
 
@@ -110,6 +111,7 @@ const App = () => {
           )}
           />
 
+          <Route path="/game-options" component={ChooseGameOptions} />
           <Redirect to="/" />
 
         </Switch>
