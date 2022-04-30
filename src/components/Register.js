@@ -4,7 +4,7 @@ import "./Register.css";
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import { v4 as uuidv4 } from 'uuid';
-
+  
 const Register = ({ handleLogin, isLoggedIn }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -26,7 +26,9 @@ const Register = ({ handleLogin, isLoggedIn }) => {
       totalQuestions: 0,
       totalCorrectAnswers: 0,
       totalIncorrectAnswers: 0
-    }).then(response => {
+    }, { withCredentials: true })
+      .then(response => {
+              
       if (response.data.status === 'created') {
         console.log('created games table.')
       }
@@ -66,7 +68,8 @@ const Register = ({ handleLogin, isLoggedIn }) => {
           await axios.post(`${process.env.REACT_APP_TRIVIA_SERVER_BASEURL}/players`, {
             userUuid: uuid,
             username: username
-          }).then(response => {
+          }, { withCredentials: true })
+            .then(response => {
             if (response.data.status === 'created') {
               console.log('created player account.')
             }

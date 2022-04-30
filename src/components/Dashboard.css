@@ -2,3 +2,8 @@
     list-style: none;
 }
 
+#my-pie-chart {
+  background: conic-gradient(blue 0.55% 6.08%, green 6.08% 13.68%, yellow 13.68% 23.27%)
+}
+
+

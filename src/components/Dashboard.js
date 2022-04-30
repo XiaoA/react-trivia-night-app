@@ -13,7 +13,8 @@ const Dashboard = ({ handleLogout }) => {
 
   const getGameStats = useCallback(async () => {
     try {
-      await axios.get(`${process.env.REACT_APP_TRIVIA_SERVER_BASEURL}/players/${currentUser.uuid}`)
+      await axios.get(`${process.env.REACT_APP_TRIVIA_SERVER_BASEURL}/players/${currentUser.uuid}`,
+                      { withCredentials: true })                      
         .then((response) => {
           setTotalQuestions(totalQuestions => response.data.game.total_questions)
           setTotalCorrectAnswers(totalCorrectAnswers => response.data.game.total_correct_answers)
@@ -71,6 +72,9 @@ const Dashboard = ({ handleLogout }) => {
                   </div>
                 </div>
                 <div className="card-content my-stats">
+                  <div className="pie-chart"></div>
+
+
                   <li>Total Questions: {totalQuestions ? totalQuestions : 0}</li>
                   <li>Correct Answers: {totalCorrectAnswers ? totalCorrectAnswers : 0}</li>
                   <li>Incorrect Answers: {totalIncorrectAnswers ? totalIncorrectAnswers : 0}</li>
