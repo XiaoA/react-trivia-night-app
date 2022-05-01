@@ -1,31 +1,60 @@
 {
-  "name": "heroku-cra-node",
-  "version": "3.0.0",
-  "description": "How to use create-react-app with a custom Node API on Heroku",
+  "name": "react-trivia-night",
+  "version": "0.1.0",
+  "private": true,
   "engines": {
     "node": "16.13.1"
   },
-  "scripts": {
-    "start": "node server",
-    "build": "cd react-ui/ && npm install && npm run build"
-  },
-  "cacheDirectories": [
-    "node_modules",
-    "react-ui/node_modules"
-  ],
   "dependencies": {
-    "express": "^4.16.4"
+    "@testing-library/jest-dom": "^5.16.1",
+    "@testing-library/react": "^12.1.2",
+    "@testing-library/user-event": "^13.5.0",
+    "axios": "^0.24.0",
+    "dotenv": "^16.0.0",
+    "msw": "^0.36.3",
+    "netlify": "^11.0.1",
+    "netlify-cli": "^10.0.0",
+    "react": "^17.0.2",
+    "react-countdown-circle-timer": "^3.0.8",
+    "react-dom": "^17.0.2",
+    "react-hook-form": "^6.15.8",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "^3.0.1",
+    "use-interval": "^1.4.0",
+    "uuid": "^8.3.2",
+    "web-vitals": "^2.1.2"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/mars/heroku-cra-node.git"
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "lint": "eslint --ignore-path .gitignore .",
+    "format": "prettier --write --ignore-path .gitignore \"**/*.+(js|json|html)\""
   },
-  "keywords": [
-    "node",
-    "heroku",
-    "create-react-app",
-    "react"
-  ],
-  "license": "MIT",
-  "devDependencies": {}
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "msw": {
+    "workerDirectory": "public"
+  },
+  "devDependencies": {
+    "cypress": "^9.5.2",
+    "eslint-plugin-cypress": "^2.12.1"
+  }
 }
