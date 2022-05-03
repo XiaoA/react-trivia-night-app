@@ -30,7 +30,6 @@ const App = () => {
       });
   }, [isLoggedIn])    
 
-
   useEffect(() => {
     checkLoginStatus()
   }, [checkLoginStatus])

@@ -3,9 +3,30 @@
     "cors": "^2.8.5",
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
-    "nodemon": "^2.0.15",
+    "nodemon": "^2.0.16",
     "pg": "^8.7.3",
     "pg-hstore": "^2.3.4",
     "sequelize": "^6.19.0"
-  }
+  },
+  "name": "trivia_node_server",
+  "description": "Node Server for Trivia Night App",
+  "version": "1.0.0",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "engines": {
+    "node": "16.14.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/XiaoA/aeb-trivia-night-node-server.git"
+  },
+  "author": "Andrew Buckingham",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/XiaoA/aeb-trivia-night-node-server/issues"
+  },
+  "homepage": "https://github.com/XiaoA/aeb-trivia-night-node-server#readme"
 }

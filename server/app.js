@@ -4,12 +4,14 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 const cors = require('cors')
 
-const corsOptions = {
-  origin: process.env.PROD_REACT_APP_URL || "http://localhost:3000"
-}
-
-app.use(cors(corsOptions))
+app.use(cors())
 app.use(express.json())
+
+
+// Root Route
+app.get('/', cors(), (request, response, next) => {
+  response.json({message: 'Hello World!'})
+})
 
 // Create New Player 
 app.post('/players', async (request, response) => {
