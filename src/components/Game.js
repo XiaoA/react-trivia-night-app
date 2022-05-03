@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useRef, useContext, useEffect, useState } from "react";
 import { GameContext } from "../contexts/GameContext";
 import GameCard from "./GameCard";
 import useInterval from 'use-interval'
@@ -6,14 +6,13 @@ import useInterval from 'use-interval'
 function Game({isLoggedIn}) {
   const [gameState, dispatch] = useContext(GameContext);
   const [questionTimer, setQuestionTimer] = React.useState(20000);
-  const currentUser = JSON.parse(localStorage.getItem('currentUser')) || [];
+  const currentUser = JSON.parse(localStorage.getItem('currentUser')) || undefined;
   const gameUuid = JSON.parse(localStorage.getItem('gameUuid')) || [];
-
-  const customGameUrl = JSON.parse(localStorage.getItem('customGameUrl')) || [];
+  const customGameUrl = JSON.parse(localStorage.getItem('customGameUrl')) || undefined;
   const [triviaApiEndpoint, setTriviaApiEndpoint] = useState("https://opentdb.com/api.php?amount=5&encode=url3986")
 
   useEffect(() => {
-    if (customGameUrl.length > 0) {
+    if (customGameUrl !== undefined) {
       setTriviaApiEndpoint(customGameUrl)
     }
     
@@ -22,7 +21,7 @@ function Game({isLoggedIn}) {
       .then((data) => {
         dispatch({ type: "OPEN_TRIVIA_API_QUESTIONS", payload: data.results });
       });
-  }, [customGameUrl, triviaApiEndpoint, dispatch, gameState.questions.length]);
+  }, [customGameUrl, dispatch, triviaApiEndpoint]);
 
 
   useInterval(() => {
@@ -38,11 +37,11 @@ function Game({isLoggedIn}) {
   return (
     <div>
       <GameCard
-        currentUser={currentUser}
-        gameUuid={gameUuid}
-        isLoggedIn={isLoggedIn}
+    currentUser={currentUser}
+    gameUuid={gameUuid}
+    isLoggedIn={isLoggedIn}
       />
-    </div>
+      </div>
   );
 }
 export default Game;

@@ -14,13 +14,13 @@ const Register = ({ handleLogin, isLoggedIn }) => {
   const [errorList, setErrorList] = useState([]);
 
   let history = useHistory();
-  
+
   const handleRegistration = useCallback((data) => {
     handleLogin(data);
     history.push('/welcome')
   }, [handleLogin, history])
 
-    const createGamesTable = useCallback(() => {
+  const createGamesTable = useCallback(() => {
     axios.post(`${process.env.REACT_APP_TRIVIA_SERVER_BASEURL}/games`, {
       userUuid: uuid,
       totalQuestions: 0,
@@ -34,53 +34,52 @@ const Register = ({ handleLogin, isLoggedIn }) => {
       console.log('games table setup error');
     })
   }, [uuid])
-  
-    const completeRegistration = useCallback((data) => {
-        async function createNewAccount() {
-          await axios.post(`${process.env.REACT_APP_AUTHENTICATION_BASEURL}/registrations`, {
-            user: {
-              email,
-              username,
-              uuid,
-              password,
-              password_confirmation
-            }
-          },
-            { withCredentials: true }
-          ).then(response => {
-            if (response.data.status === 'created') {
-              handleRegistration(response.data)
-            }
-          }).catch(error => {
-            const errorMessage = error.response.data
-            const errorParser = new DOMParser()
-            const htmlResponse = errorParser.parseFromString(errorMessage, 'text/html')
-            const errorText = htmlResponse.getElementsByClassName('message')
-            const errorInnerText = errorText[0].innerText
-            const errorList = errorInnerText.split(',')
-            setErrorList(errorList)
-          })
-        }
 
-        async function createPlayerTable() {
-          await axios.post(`${process.env.REACT_APP_TRIVIA_SERVER_BASEURL}/players`, {
-            userUuid: uuid,
-            username: username
-          }).then(response => {
-            if (response.data.status === 'created') {
-              console.log('created player account.')
-            }
-          }).catch(error => {
-            console.log('player account registration error');
-          })
+  const completeRegistration = useCallback((data) => {
+    async function createNewAccount() {
+      await axios.post(`${process.env.REACT_APP_AUTHENTICATION_BASEURL}/registrations`, {
+        user: {
+          email,
+          username,
+          uuid,
+          password,
+          password_confirmation
         }
+      }, { withCredentials: true })
+        .then(response => {
+          if (response.data.status === 'created') {
+            handleRegistration(response.data)
+          }
+        }).catch(error => {
+          const errorMessage = error.response.data
+          const errorParser = new DOMParser()
+          const htmlResponse = errorParser.parseFromString(errorMessage, 'text/html')
+          const errorText = htmlResponse.getElementsByClassName('message')
+          const errorInnerText = errorText[0].innerText
+          const errorList = errorInnerText.split(',')
+          setErrorList(errorList)
+        })
+    }
 
-        Promise.all([createNewAccount(), createPlayerTable()])
-          .then((response) => {
-            createGamesTable();
-          });
+    async function createPlayerTable() {
+      await axios.post(`${process.env.REACT_APP_TRIVIA_SERVER_BASEURL}/players`, {
+        userUuid: uuid,
+        username: username
+      }).then(response => {
+        if (response.data.status === 'created') {
+          console.log('created player account.')
+        }
+      }).catch(error => {
+        console.log('player account registration error');
+      })
+    }
+
+    Promise.all([createNewAccount(), createPlayerTable()])
+      .then((response) => {
+        createGamesTable();
+      });
   }, [createGamesTable, email, handleRegistration, password, password_confirmation, username, uuid])
-    
+
 
   //  Redirect Authenticated users from Register form
   useEffect(() => {
@@ -112,15 +111,6 @@ const Register = ({ handleLogin, isLoggedIn }) => {
   const { register, handleSubmit, errors = { errors } } = useForm({
     mode: "onBlur"
   })
-
-
-
-
-
-
-
-
-
 
   // Generate a custom key; Credit: https://stackoverflow.com/a/39549510
   const generateKey = (pre) => {
