@@ -43,8 +43,8 @@ The game is completely free to play. Membership is optional, but does provide ad
 ## External APIs and Libraries
 - **Open Trivia DB:** https://opentdb.com - A free, user-contributed database of trivia questions, with over 14,500 questions.
 
-- [Rails Authentication App](https://github.com/XiaoA/rails-authentication-app): A simple authentication system for this game, backed by Rails and PostgreSQL. This could also be replaced with another authentication system. Stores emails, passwords, and a username for members; only the username and a UUID number are shared with the application.
-- [Node Player Stats App](https://github.com/XiaoA/react-trivia-node-player-stats-server): A dedicated Node.js server and PostgreSQL database, decoupled from the autnetication system. Stores player stats.
+- [Rails Authentication App](https://github.com/XiaoA/rails-authentication-app): A simple authentication system for this game, backed by Rails and PostgreSQL. This could also be replaced with another authentication system. Stores emails, passwords, and a username for members; only the username and a UUID number are shared with the application. (This could be replaced with an alternative, like Firebase or Passport.js).
+- [Node Player Stats App](https://github.com/XiaoA/aeb-trivia-night-node-server): A dedicated Node.js server and PostgreSQL database, decoupled from the authentication system, which stores player stats.
 
 ## Architecture
 ![React Trivia Night App Achitecture](react-trivia-night-app-architecture.png "React Trivia Night App Architecture")
